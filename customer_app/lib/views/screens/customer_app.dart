@@ -1,4 +1,4 @@
-import 'package:customer_app/widgets/product_card.dart';
+import 'package:customer_app/views/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 
 class CustomerApp extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:customer_app/app/customer_app.dart';
+import 'package:customer_app/views/screens/customer_app.dart';
 import 'package:customer_app/utils/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,10 +12,6 @@ class MyApp extends StatelessWidget {
       title: 'Customer App',
       home: CustomerApp(),
       theme: lightTheme,
-      // ThemeData(
-      //     fontFamily: 'Lato',
-      //     primarySwatch: Colors.deepOrange,
-      //     accentColor: Colors.amber),
     );
   }
 }
