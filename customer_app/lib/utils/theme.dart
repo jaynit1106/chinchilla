@@ -5,12 +5,12 @@ final lightTheme = ThemeData(
   backgroundColor: kBgColor,
   fontFamily: 'Lato',
   primarySwatch: kPrimaryColor,
-  accentColor: Colors.amber,
+  accentColor: kAccentColor,
   appBarTheme: AppBarTheme(
     backgroundColor: kBgColor,
-    iconTheme: IconThemeData(color: Colors.black),
+    iconTheme: IconThemeData(color: kBlack),
     centerTitle: true,
-    actionsIconTheme: IconThemeData(color: Colors.black),
+    actionsIconTheme: IconThemeData(color: kBlack),
     textTheme: TextTheme(
       headline1: TextStyle(color: kBlack),
     ),
