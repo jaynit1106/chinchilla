@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:customer_app/controllers/authController.dart';
 
 class LoginScreen extends StatelessWidget {
+  final AuthController _authController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +36,29 @@ class LoginScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _authController.login('7754949803');
+                    // Get.bottomSheet(
+                    //     Column(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //       children: [
+                    //         Text(
+                    //           'Verification',
+                    //           style: Theme.of(context).textTheme.headline1,
+                    //         ),
+                    //         TextFormField(),
+                    //         Row(
+                    //           children: [
+                    //             Expanded(
+                    //               child: ElevatedButton(
+                    //                   onPressed: () {}, child: Text('Submit')),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     backgroundColor: Colors.white);
+                  },
                   child: Text('Login'),
                 ),
               ),
