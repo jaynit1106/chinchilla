@@ -1,8 +1,10 @@
-import 'package:customer_app/views/widgets/product_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:customer_app/controllers/authController.dart';
+import 'package:customer_app/views/widgets/product_card.dart';
 
 class CustomerApp extends StatelessWidget {
-  const CustomerApp({Key? key}) : super(key: key);
+  final AuthController _authController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class CustomerApp extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Heya 👋, Abhibhaw',
+                  _authController.getCurrentUserPhone(),
                   style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -33,6 +35,11 @@ class CustomerApp extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.wallet_giftcard),
               title: Text('Wallet'),
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
+              onTap: _authController.signOut,
             )
           ],
         ),

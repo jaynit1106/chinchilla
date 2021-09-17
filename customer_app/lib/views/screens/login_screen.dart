@@ -4,6 +4,7 @@ import 'package:customer_app/controllers/authController.dart';
 
 class LoginScreen extends StatelessWidget {
   final AuthController _authController = Get.find();
+  final TextEditingController _phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +22,7 @@ class LoginScreen extends StatelessWidget {
           ),
           TextFormField(
             autofocus: true,
+            controller: _phoneController,
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
               hintText: 'Your 10 digit mobile number?',
@@ -37,27 +39,7 @@ class LoginScreen extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    _authController.login('7754949803');
-                    // Get.bottomSheet(
-                    //     Column(
-                    //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //       children: [
-                    //         Text(
-                    //           'Verification',
-                    //           style: Theme.of(context).textTheme.headline1,
-                    //         ),
-                    //         TextFormField(),
-                    //         Row(
-                    //           children: [
-                    //             Expanded(
-                    //               child: ElevatedButton(
-                    //                   onPressed: () {}, child: Text('Submit')),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ],
-                    //     ),
-                    //     backgroundColor: Colors.white);
+                    _authController.login(_phoneController.text);
                   },
                   child: Text('Login'),
                 ),

@@ -1,6 +1,6 @@
 import 'package:customer_app/controllers/bindings/initialBindings.dart';
 import 'package:customer_app/utils/theme.dart';
-import 'package:customer_app/views/screens/login_screen.dart';
+import 'package:customer_app/views/screens/root.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
             return GetMaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'Milkton Customer App',
-              home: LoginScreen(),
+              home: RootCheck(),
               theme: lightTheme,
             );
           }
