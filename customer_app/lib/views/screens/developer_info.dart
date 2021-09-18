@@ -58,7 +58,9 @@ class DeveloperInfo extends StatelessWidget {
             Container(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    launchUrl("https://gepton.com");
+                  },
                   child: Text(
                     'Website',
                     style: TextStyle(fontSize: 18),
