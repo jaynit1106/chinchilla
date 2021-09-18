@@ -1,9 +1,9 @@
-import 'package:customer_app/controllers/bindings/initialBindings.dart';
-import 'package:customer_app/utils/theme.dart';
-import 'package:customer_app/views/screens/root.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:customer_app/utils/theme.dart';
+import 'package:customer_app/controllers/bindings/initialBindings.dart';
+import 'package:customer_app/views/screens/root.dart';
 
 Future<void> main() async {
   InitialBinding().dependencies();
