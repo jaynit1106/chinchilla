@@ -10,10 +10,13 @@ final lightTheme = ThemeData(
         TextStyle(color: kBlack, fontSize: 24, fontWeight: FontWeight.w500),
   ),
   accentColor: kAccentColor,
+  primaryTextTheme: TextTheme(
+    headline6: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+  ),
   appBarTheme: AppBarTheme(
     backgroundColor: kBgColor,
     iconTheme: IconThemeData(color: kBlack),
-    centerTitle: true,
+    titleTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
     actionsIconTheme: IconThemeData(color: kBlack),
     textTheme: TextTheme(
       headline1: TextStyle(color: kBlack),

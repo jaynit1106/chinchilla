@@ -9,6 +9,7 @@ class CustomerApp extends StatelessWidget {
     return Scaffold(
       drawer: sideDrawer,
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           'Shree Surbhi',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
