@@ -1,3 +1,5 @@
+import 'package:customer_app/services/url_launcher.dart';
+import 'package:customer_app/views/screens/developer_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:customer_app/controllers/authController.dart';
@@ -53,7 +55,7 @@ Widget sideDrawer = Drawer(
         leading: Icon(Icons.group),
         title: Text('Developer Info'),
         onTap: () {
-          Get.to(WalletScreen());
+          Get.to(DeveloperInfo());
         },
       ),
       ListTile(
@@ -67,7 +69,8 @@ Widget sideDrawer = Drawer(
         leading: Icon(Icons.update),
         title: Text('Update App'),
         onTap: () {
-          Get.to(WalletScreen());
+          launchUrl(
+              "https://play.google.com/store/apps/details?id=com.gepton.shreesurbhia2");
         },
       ),
       ListTile(

@@ -10,7 +10,7 @@ class ProductCard extends StatelessWidget {
         subtitle: Text('₹ 120.00'),
         trailing: Column(
           children: [
-            ElevatedButton(onPressed: () {}, child: Text('BUY')),
+            ElevatedButton(onPressed: () {}, child: Text('SUBSCRIBE')),
           ],
         ),
         leading: Image.network(
