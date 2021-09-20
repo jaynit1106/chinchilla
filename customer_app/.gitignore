@@ -1,3 +1,5 @@
+# ApiSecrets temp
+lib/utils/constants/apiSecrets.dart 
 # Firebase
 android/app/google-services.json
 android/google-services.json
