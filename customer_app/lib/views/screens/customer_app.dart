@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:customer_app/controllers/bottom_nav_controller.dart';
-import 'package:customer_app/views/widgets/home_widget_options.dart';
-import 'package:customer_app/views/widgets/bottom_nav_bar.dart';
-import 'package:customer_app/views/widgets/main_drawer.dart';
+import 'package:customer_app/views/widgets/home/shared/home_widget_options.dart';
+import 'package:customer_app/views/widgets/home/shared/main_drawer.dart';
 import 'package:customer_app/views/widgets/snackbar.dart';
+import 'package:customer_app/views/widgets/home/shared/bottom_nav_bar.dart';
 
 class CustomerApp extends StatelessWidget {
   final BottomNavController _bottomNavController = Get.find();
@@ -29,8 +29,9 @@ class CustomerApp extends StatelessWidget {
               ))
         ],
       ),
-      body: homeWidgetOptions.elementAt(_bottomNavController.index.value),
-      bottomNavigationBar: bottomNavigationBar,
+      body: Obx(() =>
+          (homeWidgetOptions.elementAt(_bottomNavController.index.value))),
+      bottomNavigationBar: Obx(() => bottomNavigationBar),
     );
   }
 }
