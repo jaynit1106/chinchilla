@@ -22,4 +22,8 @@ final lightTheme = ThemeData(
       headline1: TextStyle(color: kBlack),
     ),
   ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData().copyWith(
+    elevation: 10,
+    type: BottomNavigationBarType.fixed,
+  ),
 );

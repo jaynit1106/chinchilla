@@ -1,9 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:customer_app/controllers/bottom_nav_controller.dart';
+import 'package:customer_app/views/widgets/home_widget_options.dart';
+import 'package:customer_app/views/widgets/bottom_nav_bar.dart';
 import 'package:customer_app/views/widgets/main_drawer.dart';
 import 'package:customer_app/views/widgets/snackbar.dart';
-import 'package:flutter/material.dart';
-import 'package:customer_app/views/widgets/product_card.dart';
 
 class CustomerApp extends StatelessWidget {
+  final BottomNavController _bottomNavController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,41 +29,8 @@ class CustomerApp extends StatelessWidget {
               ))
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.only(right: 6),
-              child: Image.asset(
-                'assets/images/ss-cover.png',
-              ),
-            ),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-            ProductCard(),
-          ],
-        ),
-      ),
+      body: homeWidgetOptions.elementAt(_bottomNavController.index.value),
+      bottomNavigationBar: bottomNavigationBar,
     );
   }
 }

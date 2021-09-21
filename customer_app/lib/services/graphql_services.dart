@@ -13,5 +13,6 @@ class GraphQLService {
         cache: GraphQLCache(store: HiveStore()),
       ),
     );
+    debugPrint('GraphQL Initialised');
   }
 }
