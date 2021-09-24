@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:customer_app/views/widgets/snackbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -76,8 +77,10 @@ class AuthController extends GetxController {
         : 'No user found';
   }
 
-  void signOut() {
-    _auth.signOut();
+  void signOut() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    await _prefs.clear();
+    await _auth.signOut();
     Get.offAll(RootCheck());
   }
 }
