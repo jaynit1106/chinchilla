@@ -19,9 +19,9 @@ class _SplashViewState extends State<SplashView> {
     SharedPreferences _pref = await SharedPreferences.getInstance();
     if (_pref.getBool('locationStatus') == null ||
         _pref.getBool('locationStatus') != true) {
-      Get.off(SelectLocation());
+      Get.off(() => SelectLocation());
     } else {
-      Get.off(RootCheck());
+      Get.off(() => RootCheck());
     }
   }
 
