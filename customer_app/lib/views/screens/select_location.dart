@@ -1,21 +1,15 @@
-import 'package:customer_app/graphQL/query.dart';
-import 'package:customer_app/services/graphql_services.dart';
-import 'package:customer_app/services/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:customer_app/services/graphql_services.dart';
+import 'package:customer_app/services/url_launcher.dart';
+import 'package:customer_app/graphQL/query.dart';
+import 'package:customer_app/controllers/select_location_controller.dart';
 
 class SelectLocation extends StatelessWidget {
   final GraphQLService _graphQLService = Get.find();
-  String value = '0';
-
-  final List<DropdownMenuItem<String>> regionOptions = [
-    DropdownMenuItem<String>(
-      value: "0",
-      child: Text('Select'),
-    )
-  ];
+  final SelectLocationController _selectLocationController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -50,15 +44,13 @@ class SelectLocation extends StatelessWidget {
                 if (result.isLoading) {
                   return Text('Loading');
                 }
-
-                result.data!['regions'].forEach(((region) {
-                  if (!regionOptions.contains(region['id'])) {
-                    regionOptions.add(DropdownMenuItem<String>(
-                      value: region['id'],
-                      child: Text(region['name']),
-                    ));
-                  }
-                }));
+                if (_selectLocationController.regionOptions.length < 2) {
+                  result.data!['regions'].forEach(((region) {
+                    _selectLocationController.addRegion(
+                        region['id'], region['name']);
+                    _selectLocationController.removeDemoRegion();
+                  }));
+                }
 
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -67,14 +59,14 @@ class SelectLocation extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        DropdownButton(
-                          items: regionOptions,
-                          value: value,
-                          elevation: 5,
-                          onChanged: (String? v) {
-                            value = v!;
-                          },
-                        ),
+                        Obx(() => DropdownButton(
+                              items: _selectLocationController.regionOptions,
+                              value:
+                                  _selectLocationController.regionValue.value,
+                              elevation: 5,
+                              onChanged: (String? val) =>
+                                  _selectLocationController.selectRegion(val),
+                            )),
                         Text(
                           "Select Region*",
                           style: TextStyle(color: Colors.grey, fontSize: 12.0),
@@ -84,14 +76,14 @@ class SelectLocation extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        DropdownButton(
-                          elevation: 5,
-                          onChanged: (String? value) {
-                            print(value);
-                          },
-                          items: regionOptions,
-                          value: regionOptions[0].value,
-                        ),
+                        Obx(() => DropdownButton(
+                              elevation: 5,
+                              onChanged: (String? val) =>
+                                  _selectLocationController.selectRegion(val),
+                              items: _selectLocationController.regionOptions,
+                              value:
+                                  _selectLocationController.regionValue.value,
+                            )),
                         Text(
                           "Select Location*",
                           style: TextStyle(color: Colors.grey, fontSize: 12.0),
