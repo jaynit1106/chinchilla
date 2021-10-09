@@ -42,7 +42,7 @@ class SelectLocation extends StatelessWidget {
                   return Text(result.exception.toString());
                 }
                 if (result.isLoading) {
-                  return Text('Loading');
+                  return CircularProgressIndicator();
                 }
                 if (_selectLocationController.regionOptions.length < 2) {
                   result.data!['regions'].forEach(((region) {
@@ -60,13 +60,15 @@ class SelectLocation extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Obx(() => DropdownButton(
-                              items: _selectLocationController.regionOptions,
-                              value:
-                                  _selectLocationController.regionValue.value,
-                              elevation: 5,
-                              onChanged: (String? val) =>
-                                  _selectLocationController.selectRegion(val),
-                            )),
+                            items: _selectLocationController.regionOptions,
+                            value: _selectLocationController.regionValue.value,
+                            elevation: 5,
+                            onChanged: (String? val) {
+                              _selectLocationController.selectRegion(val);
+                              _selectLocationController.addLocation(
+                                  result.data!['regions'].firstWhere((region) =>
+                                      region['id'] == val)['locations']);
+                            })),
                         Text(
                           "Select Region*",
                           style: TextStyle(color: Colors.grey, fontSize: 12.0),
@@ -79,10 +81,10 @@ class SelectLocation extends StatelessWidget {
                         Obx(() => DropdownButton(
                               elevation: 5,
                               onChanged: (String? val) =>
-                                  _selectLocationController.selectRegion(val),
-                              items: _selectLocationController.regionOptions,
+                                  _selectLocationController.selectLocation(val),
+                              items: _selectLocationController.locationOptions,
                               value:
-                                  _selectLocationController.regionValue.value,
+                                  _selectLocationController.locationValue.value,
                             )),
                         Text(
                           "Select Location*",
