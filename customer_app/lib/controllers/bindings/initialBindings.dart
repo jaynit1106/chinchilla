@@ -12,6 +12,6 @@ class InitialBinding implements Bindings {
     Get.lazyPut(() => GraphQLService());
     Get.lazyPut(() => AuthController());
     Get.lazyPut(() => BottomNavController());
-    Get.lazyPut(() => SelectLocationController());
+    Get.lazyPut(() => SelectLocationController(), fenix: true);
   }
 }

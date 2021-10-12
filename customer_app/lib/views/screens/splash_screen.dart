@@ -1,12 +1,10 @@
 import 'dart:async';
 
-import 'package:customer_app/services/graphql_services.dart';
-import 'package:customer_app/views/screens/root.dart';
-import 'package:customer_app/views/screens/select_location.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:customer_app/services/graphql_services.dart';
+import 'package:customer_app/views/screens/root.dart';
 
 class SplashView extends StatefulWidget {
   @override
@@ -15,20 +13,11 @@ class SplashView extends StatefulWidget {
 
 class _SplashViewState extends State<SplashView> {
   GraphQLService _graphQLService = Get.find();
-  locationCheck() async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
-    if (_pref.getBool('locationStatus') == null ||
-        _pref.getBool('locationStatus') != true) {
-      Get.off(() => SelectLocation());
-    } else {
-      Get.off(() => RootCheck());
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3), () => locationCheck());
+    Timer(Duration(seconds: 3), () => Get.off(() => RootCheck()));
     _graphQLService.setupGraphQL();
   }
 

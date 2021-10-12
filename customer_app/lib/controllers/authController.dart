@@ -1,10 +1,10 @@
-import 'package:customer_app/views/screens/root.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:customer_app/views/widgets/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:customer_app/views/screens/root.dart';
+import 'package:customer_app/views/screens/splash_screen.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -81,6 +81,6 @@ class AuthController extends GetxController {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.clear();
     await _auth.signOut();
-    Get.offAll(RootCheck());
+    Get.offAll(SplashView());
   }
 }
