@@ -1,4 +1,5 @@
 class User {
+  String id;
   String firstName;
   String lastName;
   String phone;
@@ -6,6 +7,7 @@ class User {
   String hubID;
   int wallet;
   User({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.phone,

@@ -40,21 +40,21 @@ Widget sideDrawer = Drawer(
         leading: Icon(Icons.person),
         title: Text('Profile'),
         onTap: () {
-          Get.to(WalletScreen());
+          Get.to(() => WalletScreen());
         },
       ),
       ListTile(
         leading: Icon(Icons.wallet_giftcard),
         title: Text('Wallet'),
         onTap: () {
-          Get.to(WalletScreen());
+          Get.to(() => WalletScreen());
         },
       ),
       ListTile(
         leading: Icon(Icons.location_city),
         title: Text('Addresses'),
         onTap: () {
-          Get.to(WalletScreen());
+          Get.to(() => WalletScreen());
         },
       ),
       ListTile(

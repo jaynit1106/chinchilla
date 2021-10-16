@@ -14,6 +14,7 @@ query LocationQuery {
 String userByPhone = """
 query customerByPhone(\$phone: String) {
   customerByPhone(phone: \$phone) {
+    id
     firstName
     lastName
     phone
@@ -41,4 +42,15 @@ query Products(\$hubID: ID) {
   }
 }
 
+""";
+
+String last7Transactions = """
+query last7Transactions(\$customerID: String, \$startDate: Date, \$endDate: Date) {
+  transactionsByCustomerIDAndDate(customerID: \$customerID, startDate: \$startDate, endDate: \$endDate) {
+    isDebit
+    subTotal
+    comment
+    date
+  }
+}
 """;

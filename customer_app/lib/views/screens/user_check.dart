@@ -26,6 +26,8 @@ class UserCheck extends StatelessWidget {
             return CircularProgressIndicator();
           }
           if (result.data!['customerByPhone'] != null) {
+            _userController.user.value.id =
+                result.data!['customerByPhone']['id'];
             _userController.user.value.firstName =
                 result.data!['customerByPhone']['firstName'];
             _userController.user.value.lastName =
