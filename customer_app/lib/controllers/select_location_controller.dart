@@ -61,7 +61,7 @@ class SelectLocationController extends GetxController {
     if (locationValue.value != "0" && locationValue.value != null) {
       SharedPreferences _prefs = await SharedPreferences.getInstance();
       await _prefs.setString('locationID', locationValue.value.toString());
-      Get.offAll(SplashView());
+      Get.offAll(() => SplashView());
     } else {
       launchSnack('Wrong Location', 'Please select your delivery location');
     }

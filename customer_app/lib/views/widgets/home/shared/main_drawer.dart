@@ -61,14 +61,14 @@ Widget sideDrawer = Drawer(
         leading: Icon(Icons.group),
         title: Text('Developer Info'),
         onTap: () {
-          Get.to(DeveloperInfo());
+          Get.to(() => DeveloperInfo());
         },
       ),
       ListTile(
         leading: Icon(Icons.help),
         title: Text('Contact Us'),
         onTap: () {
-          Get.to(WalletScreen());
+          Get.to(() => WalletScreen());
         },
       ),
       ListTile(

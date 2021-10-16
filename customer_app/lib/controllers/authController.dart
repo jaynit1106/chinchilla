@@ -21,7 +21,7 @@ class AuthController extends GetxController {
     final PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential credential) async {
       await _auth.signInWithCredential(credential);
-      Get.offAll(RootCheck());
+      Get.offAll(() => RootCheck());
     };
 
     final PhoneVerificationFailed verificationFailed =
@@ -65,7 +65,7 @@ class AuthController extends GetxController {
       PhoneAuthCredential credential =
           PhoneAuthProvider.credential(verificationId: verID, smsCode: otp);
       await _auth.signInWithCredential(credential);
-      Get.offAll(RootCheck());
+      Get.offAll(() => RootCheck());
     } catch (e) {
       launchSnack('Something went wrong', e.toString());
     }
@@ -81,6 +81,6 @@ class AuthController extends GetxController {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.clear();
     await _auth.signOut();
-    Get.offAll(SplashView());
+    Get.offAll(() => SplashView());
   }
 }

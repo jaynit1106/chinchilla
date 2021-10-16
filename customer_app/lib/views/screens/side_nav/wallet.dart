@@ -1,4 +1,5 @@
 import 'package:customer_app/dataModels/transaction_model.dart';
+import 'package:customer_app/utils/dates.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:customer_app/services/graphql_services.dart';
@@ -58,20 +59,13 @@ class WalletScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text(
-                    'Last 7 Days',
-                    style: Get.textTheme.headline1,
-                  ),
-                ),
                 Query(
                   options: QueryOptions(
                       document: gql(last7Transactions),
                       variables: {
                         "customerID": _userController.user.value.id,
-                        "startDate": "2021-01-01",
-                        "endDate": "2021-10-17",
+                        "startDate": before7DaysFormat,
+                        "endDate": todayFormat,
                       }),
                   builder: (QueryResult result,
                       {VoidCallback? refetch, FetchMore? fetchMore}) {
@@ -83,32 +77,43 @@ class WalletScreen extends StatelessWidget {
                     }
                     if (result.data!['transactionsByCustomerIDAndDate'].length >
                         0) {
-                      return Container(
-                        height: Get.height * 0.47,
-                        child: ListView.builder(
-                            itemCount: result
-                                .data!['transactionsByCustomerIDAndDate']
-                                .length,
-                            itemBuilder: (context, index) {
-                              final Transaction _transaction = Transaction(
-                                  isDebit: result.data!['transactionsByCustomerIDAndDate']
-                                      [index]['isDebit'],
-                                  subTotal: result.data!['transactionsByCustomerIDAndDate']
-                                      [index]['subTotal'],
-                                  date: DateTime.parse(
-                                      result.data!['transactionsByCustomerIDAndDate']
-                                          [index]['date']),
-                                  comment: result.data!['transactionsByCustomerIDAndDate']
-                                              [index]['comment'] !=
-                                          null
-                                      ? result.data!['transactionsByCustomerIDAndDate']
-                                          [index]['comment']
-                                      : 'Transaction');
-                              return TransactionCard(_transaction);
-                            }),
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: Text(
+                              'Last 7 Days',
+                              style: Get.textTheme.headline1,
+                            ),
+                          ),
+                          Container(
+                            height: Get.height * 0.47,
+                            child: ListView.builder(
+                                itemCount: result
+                                    .data!['transactionsByCustomerIDAndDate']
+                                    .length,
+                                itemBuilder: (context, index) {
+                                  final Transaction _transaction = Transaction(
+                                      isDebit: result.data!['transactionsByCustomerIDAndDate']
+                                          [index]['isDebit'],
+                                      subTotal: result.data!['transactionsByCustomerIDAndDate']
+                                          [index]['subTotal'],
+                                      date: DateTime.parse(
+                                          result.data!['transactionsByCustomerIDAndDate']
+                                              [index]['date']),
+                                      comment: result.data!['transactionsByCustomerIDAndDate']
+                                                  [index]['comment'] !=
+                                              null
+                                          ? result.data!['transactionsByCustomerIDAndDate']
+                                              [index]['comment']
+                                          : '');
+                                  return TransactionCard(_transaction);
+                                }),
+                          ),
+                        ],
                       );
                     }
-                    return Text('No transactions found in past 7 Days');
+                    return Container();
                   },
                 ),
                 Padding(
