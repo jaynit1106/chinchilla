@@ -28,3 +28,17 @@ query customerByPhone(\$phone: String) {
 }
 
 """;
+
+String products = """
+query Products(\$hubID: ID) {
+  hub(id: \$hubID) {
+    products {
+      id
+      name
+      price
+      photoURL
+    }
+  }
+}
+
+""";
