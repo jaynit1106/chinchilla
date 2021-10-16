@@ -1,9 +1,9 @@
 import 'package:customer_app/services/url_launcher.dart';
-import 'package:customer_app/views/screens/developer_info.dart';
+import 'package:customer_app/views/screens/side_nav/developer_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:customer_app/controllers/authController.dart';
-import 'package:customer_app/views/screens/wallet.dart';
+import 'package:customer_app/views/screens/side_nav/wallet.dart';
 
 final AuthController _authController = Get.find();
 

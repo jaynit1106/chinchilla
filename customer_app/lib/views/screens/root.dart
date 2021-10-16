@@ -4,9 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:customer_app/services/graphql_services.dart';
-import 'package:customer_app/views/screens/customer_app.dart';
-import 'package:customer_app/views/screens/login_screen.dart';
-import 'package:customer_app/views/screens/select_location.dart';
+import 'package:customer_app/views/screens/bottom_nav/customer_app.dart';
+import 'package:customer_app/views/screens/login_flow/login_screen.dart';
+import 'package:customer_app/views/screens/login_flow/select_location.dart';
 
 class RootCheck extends StatelessWidget {
   final GraphQLService _graphQLService = Get.find();

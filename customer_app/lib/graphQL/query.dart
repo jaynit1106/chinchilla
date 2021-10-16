@@ -10,3 +10,13 @@ query LocationQuery {
   }
 }
 """;
+
+String userByPhone = """
+query customerByPhone(\$phone: String) {
+  customerByPhone(phone: \$phone) {
+    firstName
+    lastName
+    phone
+  }
+}
+""";
