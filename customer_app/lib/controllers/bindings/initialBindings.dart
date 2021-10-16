@@ -1,3 +1,4 @@
+import 'package:customer_app/controllers/user_controller.dart';
 import 'package:get/get.dart';
 import 'package:customer_app/controllers/bottom_nav_controller.dart';
 import 'package:customer_app/controllers/select_location_controller.dart';
@@ -13,5 +14,6 @@ class InitialBinding implements Bindings {
     Get.lazyPut(() => AuthController(), fenix: true);
     Get.lazyPut(() => BottomNavController(), fenix: true);
     Get.lazyPut(() => SelectLocationController(), fenix: true);
+    Get.lazyPut(() => UserController(), fenix: true);
   }
 }

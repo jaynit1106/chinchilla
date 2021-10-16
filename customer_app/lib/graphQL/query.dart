@@ -17,6 +17,14 @@ query customerByPhone(\$phone: String) {
     firstName
     lastName
     phone
+    wallet
+    location {
+      routeID
+      region {
+        hubID
+      }
+    }
   }
 }
+
 """;

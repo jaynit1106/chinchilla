@@ -16,13 +16,10 @@ class RootCheck extends StatelessWidget {
         future: locationCheck(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData) {
-            final String? phoneNumber =
-                FirebaseAuth.instance.currentUser!.phoneNumber;
             return (FirebaseAuth.instance.currentUser != null)
                 ? GraphQLProvider(
                     client: _graphQLService.client,
-                    child: UserCheck(
-                        phoneNumber!.substring(phoneNumber.length - 10)),
+                    child: UserCheck(),
                   )
                 : snapshot.data == true
                     ? GraphQLProvider(
