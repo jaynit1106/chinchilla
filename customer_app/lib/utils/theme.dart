@@ -14,7 +14,8 @@ final lightTheme = ThemeData(
   appBarTheme: AppBarTheme(
     backgroundColor: kBgColor,
     iconTheme: IconThemeData(color: kBlack),
-    titleTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    titleTextStyle: TextStyle(
+        color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18.0),
     actionsIconTheme: IconThemeData(color: kBlack),
     textTheme: TextTheme(
       headline1: TextStyle(color: kBlack),

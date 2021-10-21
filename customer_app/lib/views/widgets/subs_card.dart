@@ -4,17 +4,19 @@ import 'package:intl/intl.dart';
 import 'package:customer_app/dataModels/item_model.dart';
 import 'package:customer_app/utils/enums/enums.dart';
 
-class OrderCard extends StatelessWidget {
+class SubsCard extends StatelessWidget {
   final int price;
-  final OrderStatus status;
+  final SubStatus status;
   final DateTime date;
+  final int frequency;
   final List<Item> items;
-  const OrderCard({
+  const SubsCard({
     Key? key,
     required this.price,
     required this.status,
     required this.date,
     required this.items,
+    required this.frequency,
   }) : super(key: key);
 
   @override
@@ -39,13 +41,11 @@ class OrderCard extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    color: status == OrderStatus.DELIVERED
+                    color: status == SubStatus.ACTIVE
                         ? Colors.green
-                        : status == OrderStatus.UNDELIVERED
-                            ? Colors.red
-                            : status == OrderStatus.ACTIVE
-                                ? Colors.blue
-                                : Colors.amber,
+                        : status == SubStatus.PENDING
+                            ? Colors.amber
+                            : Colors.blue,
                     padding: EdgeInsets.all(2.0),
                     child: Text(
                       parseEnum(status.toString()),
@@ -72,15 +72,61 @@ class OrderCard extends StatelessWidget {
                   ),
                   Divider(),
                   Text(
-                    'DATED:',
+                    'REPEAT:',
                   ),
                   Text(
-                    DateFormat.yMMMMd('en_US').format(date).toString(),
+                    frequency == 1
+                        ? 'Daily'
+                        : frequency == 7
+                            ? 'Weekly'
+                            : frequency == 2
+                                ? 'Every alternate days'
+                                : frequency == 3
+                                    ? 'Every 3rd day'
+                                    : 'Every ${frequency}th day',
                     style: TextStyle(
                       color: kBlack,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
+                  Divider(),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        'NEXT DELIVERY:',
+                      ),
+                      Text(
+                        DateFormat.yMMMMd('en_US').format(date).toString(),
+                        style: TextStyle(
+                          color: kBlack,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        'ENDS ON:',
+                      ),
+                      Text(
+                        DateFormat.yMMMMd('en_US').format(date).toString(),
+                        style: TextStyle(
+                          color: kBlack,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -90,7 +136,7 @@ class OrderCard extends StatelessWidget {
               children: [
                 TextButton(
                   onPressed: () {},
-                  child: Text('CANCEL'),
+                  child: Text('PAUSE'),
                 ),
                 Divider(),
                 TextButton(

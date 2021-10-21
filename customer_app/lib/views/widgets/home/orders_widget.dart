@@ -1,26 +1,21 @@
-import 'package:customer_app/views/widgets/subs_card.dart';
-import 'package:flutter/material.dart';
-import 'package:customer_app/views/widgets/order_card.dart';
 import 'package:customer_app/dataModels/item_model.dart';
 import 'package:customer_app/utils/enums/enums.dart';
+import 'package:customer_app/views/widgets/order_card.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeWidget extends StatelessWidget {
+class OrdersView extends StatelessWidget {
+  const OrdersView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Container(
-            padding: EdgeInsets.only(right: 6),
-            child: Image.asset(
-              'assets/images/ss-cover.png',
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text(
-              'Order for Today',
+              'Past 30 days orders',
               style: Get.textTheme.headline1,
             ),
           ),
@@ -33,37 +28,54 @@ class HomeWidget extends StatelessWidget {
               Item(name: "Headphones", quantity: 5),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Text(
-              'Subscriptions',
-              style: Get.textTheme.headline1,
-            ),
-          ),
-          SubsCard(
+          OrderCard(
             price: 200,
-            frequency: 1,
-            status: SubStatus.COMPLETED,
+            status: OrderStatus.DELIVERED,
             date: DateTime.now(),
             items: [
               Item(name: "Laptop", quantity: 2),
               Item(name: "Headphones", quantity: 5),
             ],
           ),
-          SubsCard(
+          OrderCard(
             price: 200,
-            frequency: 2,
-            status: SubStatus.ACTIVE,
+            status: OrderStatus.ACTIVE,
             date: DateTime.now(),
             items: [
               Item(name: "Laptop", quantity: 2),
               Item(name: "Headphones", quantity: 5),
             ],
           ),
-          SubsCard(
+          OrderCard(
             price: 200,
-            frequency: 2,
-            status: SubStatus.PENDING,
+            status: OrderStatus.UNDELIVERED,
+            date: DateTime.now(),
+            items: [
+              Item(name: "Laptop", quantity: 2),
+              Item(name: "Headphones", quantity: 5),
+            ],
+          ),
+          OrderCard(
+            price: 200,
+            status: OrderStatus.DELIVERED,
+            date: DateTime.now(),
+            items: [
+              Item(name: "Laptop", quantity: 2),
+              Item(name: "Headphones", quantity: 5),
+            ],
+          ),
+          OrderCard(
+            price: 200,
+            status: OrderStatus.ACTIVE,
+            date: DateTime.now(),
+            items: [
+              Item(name: "Laptop", quantity: 2),
+              Item(name: "Headphones", quantity: 5),
+            ],
+          ),
+          OrderCard(
+            price: 200,
+            status: OrderStatus.DELIVERED,
             date: DateTime.now(),
             items: [
               Item(name: "Laptop", quantity: 2),
