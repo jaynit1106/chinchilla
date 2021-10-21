@@ -4,12 +4,10 @@ import 'package:customer_app/utils/color.dart';
 final lightTheme = ThemeData(
   backgroundColor: kBgColor,
   fontFamily: 'Lato',
-  primarySwatch: kPrimaryColor,
   textTheme: TextTheme(
     headline1:
         TextStyle(color: kBlack, fontSize: 24, fontWeight: FontWeight.w500),
   ),
-  accentColor: kAccentColor,
   primaryTextTheme: TextTheme(
     headline6: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
   ),
@@ -26,4 +24,6 @@ final lightTheme = ThemeData(
     elevation: 10,
     type: BottomNavigationBarType.fixed,
   ),
+  colorScheme: ColorScheme.fromSwatch(primarySwatch: kPrimaryColor)
+      .copyWith(secondary: kAccentColor),
 );
