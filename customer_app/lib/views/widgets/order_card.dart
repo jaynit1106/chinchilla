@@ -84,21 +84,21 @@ class OrderCard extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                  onPressed: () {},
-                  child: Text('CANCEL'),
-                ),
-                Divider(),
-                TextButton(
-                  onPressed: () {},
-                  child: Text('EDIT'),
-                ),
-              ],
-            ),
+            // Divider(),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     TextButton(
+            //       onPressed: () {},
+            //       child: Text('CANCEL'),
+            //     ),
+            //     Divider(),
+            //     TextButton(
+            //       onPressed: () {},
+            //       child: Text('EDIT'),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),

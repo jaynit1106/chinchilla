@@ -54,3 +54,24 @@ query last7Transactions(\$customerID: String, \$startDate: Date, \$endDate: Date
   }
 }
 """;
+
+String customerHome = """
+query customerHome(\$id: ID){
+  customer(id: \$id) {
+    ordersForToday {
+      id
+      items
+      status
+      deliveryDate
+    }
+    subscriptions{
+      id
+      items
+      nextDeliveryDate
+      frequency
+      endDate
+      status
+    }
+  }
+}
+""";

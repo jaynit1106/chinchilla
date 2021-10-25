@@ -7,16 +7,18 @@ import 'package:customer_app/utils/enums/enums.dart';
 class SubsCard extends StatelessWidget {
   final int price;
   final SubStatus status;
-  final DateTime date;
+  final String nextDeliveryDate;
+  final String endDate;
   final int frequency;
   final List<Item> items;
   const SubsCard({
     Key? key,
     required this.price,
     required this.status,
-    required this.date,
+    required this.nextDeliveryDate,
     required this.items,
     required this.frequency,
+    this.endDate = '',
   }) : super(key: key);
 
   @override
@@ -104,7 +106,9 @@ class SubsCard extends StatelessWidget {
                         'NEXT DELIVERY:',
                       ),
                       Text(
-                        DateFormat.yMMMMd('en_US').format(date).toString(),
+                        DateFormat.yMMMMd('en_US')
+                            .format(DateTime.parse(nextDeliveryDate))
+                            .toString(),
                         style: TextStyle(
                           color: kBlack,
                           fontWeight: FontWeight.w600,
@@ -116,10 +120,14 @@ class SubsCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        'ENDS ON:',
+                        'ENDS:',
                       ),
                       Text(
-                        DateFormat.yMMMMd('en_US').format(date).toString(),
+                        endDate != ''
+                            ? DateFormat.yMMMMd('en_US')
+                                .format(DateTime.parse(endDate))
+                                .toString()
+                            : 'NEVER',
                         style: TextStyle(
                           color: kBlack,
                           fontWeight: FontWeight.w600,
@@ -130,21 +138,21 @@ class SubsCard extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                  onPressed: () {},
-                  child: Text('PAUSE'),
-                ),
-                Divider(),
-                TextButton(
-                  onPressed: () {},
-                  child: Text('EDIT'),
-                ),
-              ],
-            ),
+            // Divider(),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     TextButton(
+            //       onPressed: () {},
+            //       child: Text('PAUSE'),
+            //     ),
+            //     Divider(),
+            //     TextButton(
+            //       onPressed: () {},
+            //       child: Text('EDIT'),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),
