@@ -63,23 +63,26 @@ class HomeWidget extends StatelessWidget {
                   return Center(child: CircularProgressIndicator());
                 }
                 if (result.data!['customer'] != null) {
-                  return Column(
-                    children: [
-                      HomeOrder(
-                        productController: _productController,
-                        ordersForToday: result.data!['customer']
-                            ['ordersForToday'],
-                      ),
-                      HomeSubscription(
-                          productController: _productController,
-                          subscription: result.data!['customer']
-                              ['subscriptions']),
-                    ],
-                  );
+                  return result.data!['customer']['ordersForToday'].length >
+                              0 ||
+                          result.data!['customer']['subscriptions'].length > 0
+                      ? Column(
+                          children: [
+                            HomeOrder(
+                              productController: _productController,
+                              ordersForToday: result.data!['customer']
+                                  ['ordersForToday'],
+                            ),
+                            HomeSubscription(
+                                productController: _productController,
+                                subscription: result.data!['customer']
+                                    ['subscriptions']),
+                          ],
+                        )
+                      : Center(
+                          child: Text('You haven\'t ordered anything yet'));
                 }
-                return Center(
-                  child: Text('Something went wrong!!'),
-                );
+                return Center(child: Text('Something went wrong!!'));
               }),
         ],
       ),
