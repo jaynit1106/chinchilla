@@ -1,7 +1,6 @@
 import 'package:customer_app/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:customer_app/dataModels/item_model.dart';
 import 'package:customer_app/utils/enums/enums.dart';
 
 class SubsCard extends StatelessWidget {
@@ -10,7 +9,7 @@ class SubsCard extends StatelessWidget {
   final String nextDeliveryDate;
   final String endDate;
   final int frequency;
-  final List<Item> items;
+  final List<dynamic> items;
   const SubsCard({
     Key? key,
     required this.price,

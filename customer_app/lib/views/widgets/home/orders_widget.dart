@@ -22,7 +22,7 @@ class OrdersView extends StatelessWidget {
           OrderCard(
             price: 200,
             status: OrderStatus.UNDELIVERED,
-            date: DateTime.now(),
+            date: '2021-10-26T20:31:00.120Z',
             items: [
               Item(name: "Laptop", quantity: 2),
               Item(name: "Headphones", quantity: 5),
@@ -31,7 +31,7 @@ class OrdersView extends StatelessWidget {
           OrderCard(
             price: 200,
             status: OrderStatus.DELIVERED,
-            date: DateTime.now(),
+            date: '2021-10-26T20:31:00.120Z',
             items: [
               Item(name: "Laptop", quantity: 2),
               Item(name: "Headphones", quantity: 5),
@@ -40,7 +40,7 @@ class OrdersView extends StatelessWidget {
           OrderCard(
             price: 200,
             status: OrderStatus.ACTIVE,
-            date: DateTime.now(),
+            date: '2021-10-26T20:31:00.120Z',
             items: [
               Item(name: "Laptop", quantity: 2),
               Item(name: "Headphones", quantity: 5),
@@ -49,7 +49,7 @@ class OrdersView extends StatelessWidget {
           OrderCard(
             price: 200,
             status: OrderStatus.UNDELIVERED,
-            date: DateTime.now(),
+            date: '2021-10-26T20:31:00.120Z',
             items: [
               Item(name: "Laptop", quantity: 2),
               Item(name: "Headphones", quantity: 5),
@@ -58,7 +58,7 @@ class OrdersView extends StatelessWidget {
           OrderCard(
             price: 200,
             status: OrderStatus.DELIVERED,
-            date: DateTime.now(),
+            date: '2021-10-26T20:31:00.120Z',
             items: [
               Item(name: "Laptop", quantity: 2),
               Item(name: "Headphones", quantity: 5),
@@ -67,16 +67,7 @@ class OrdersView extends StatelessWidget {
           OrderCard(
             price: 200,
             status: OrderStatus.ACTIVE,
-            date: DateTime.now(),
-            items: [
-              Item(name: "Laptop", quantity: 2),
-              Item(name: "Headphones", quantity: 5),
-            ],
-          ),
-          OrderCard(
-            price: 200,
-            status: OrderStatus.DELIVERED,
-            date: DateTime.now(),
+            date: '2021-10-26T20:31:00.120Z',
             items: [
               Item(name: "Laptop", quantity: 2),
               Item(name: "Headphones", quantity: 5),

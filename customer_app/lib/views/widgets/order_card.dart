@@ -1,14 +1,13 @@
-import 'package:customer_app/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:customer_app/dataModels/item_model.dart';
+import 'package:customer_app/utils/color.dart';
 import 'package:customer_app/utils/enums/enums.dart';
 
 class OrderCard extends StatelessWidget {
   final int price;
   final OrderStatus status;
-  final DateTime date;
-  final List<Item> items;
+  final String date;
+  final List<dynamic> items;
   const OrderCard({
     Key? key,
     required this.price,
@@ -75,7 +74,9 @@ class OrderCard extends StatelessWidget {
                     'DATED:',
                   ),
                   Text(
-                    DateFormat.yMMMMd('en_US').format(date).toString(),
+                    DateFormat.yMMMMd('en_US')
+                        .format(DateTime.parse(date))
+                        .toString(),
                     style: TextStyle(
                       color: kBlack,
                       fontWeight: FontWeight.w600,
