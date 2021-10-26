@@ -1,3 +1,4 @@
+import 'package:customer_app/controllers/productController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:customer_app/controllers/user_controller.dart';
@@ -10,6 +11,7 @@ import 'package:customer_app/utils/enums/enums.dart';
 
 class HomeWidget extends StatelessWidget {
   final UserController _userController = Get.find();
+  final ProductController _productController = Get.find();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -22,6 +24,28 @@ class HomeWidget extends StatelessWidget {
               'assets/images/ss-cover.png',
             ),
           ),
+          Query(
+              options: QueryOptions(
+                document: gql(products),
+                variables: {'hubID': _userController.user.value.hubID},
+              ),
+              builder: (QueryResult result,
+                  {VoidCallback? refetch, FetchMore? fetchMore}) {
+                if (result.hasException) {
+                  return Text(result.exception.toString());
+                }
+                if (result.isLoading) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (result.data!['hub']['products'].length > 0) {
+                  if (!_productController.productsAdded.value) {
+                    _productController
+                        .addProducts(result.data!['hub']['products']);
+                    _productController.productsAdded.value = true;
+                  }
+                }
+                return Container();
+              }),
           Query(
               options: QueryOptions(
                 document: gql(customerHome),
@@ -75,7 +99,9 @@ class HomeWidget extends StatelessWidget {
                                                     ['items']
                                                 .map(
                                                   (item) => Item(
-                                                      name: item['productID'],
+                                                      name: _productController
+                                                          .getProductName(item[
+                                                              'productID']),
                                                       quantity:
                                                           item['quantity']),
                                                 )
@@ -122,7 +148,9 @@ class HomeWidget extends StatelessWidget {
                                                       ['items']
                                                   .map(
                                                     (item) => Item(
-                                                        name: item['productID'],
+                                                        name: _productController
+                                                            .getProductName(item[
+                                                                'productID']),
                                                         quantity:
                                                             item['quantity']),
                                                   )
