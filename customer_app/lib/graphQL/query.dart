@@ -75,3 +75,15 @@ query customerHome(\$id: ID){
   }
 }
 """;
+
+String past30DaysOneTimeOrders = """
+query past30DaysOneTimeOrders(\$customerID: String, \$startDate: Date, \$endDate: Date) {
+  OneTimeOrdersByCustomerIDAndDate(customerID: \$customerID, startDate: \$startDate, endDate: \$endDate) {
+    id
+    items
+    deliveryDate
+    status
+  }
+}
+
+""";
