@@ -23,7 +23,7 @@ class HomeOrder extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    'Order for Today (${ordersForToday.length})',
+                    'For Today (${ordersForToday.length})',
                     style: Get.textTheme.headline1,
                   ),
                 ),

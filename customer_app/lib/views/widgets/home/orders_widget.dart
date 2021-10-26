@@ -21,7 +21,7 @@ class OrdersView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text(
-              'Past 30 days orders',
+              'Past 30 days one time orders',
               style: Get.textTheme.headline1,
             ),
           ),
