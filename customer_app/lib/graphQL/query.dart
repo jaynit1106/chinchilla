@@ -44,8 +44,8 @@ query Products(\$hubID: ID) {
 
 """;
 
-String last7Transactions = """
-query last7Transactions(\$customerID: String, \$startDate: Date, \$endDate: Date) {
+String transactionByDate = """
+query transactionByDate(\$customerID: String, \$startDate: Date, \$endDate: Date) {
   transactionsByCustomerIDAndDate(customerID: \$customerID, startDate: \$startDate, endDate: \$endDate) {
     isDebit
     subTotal

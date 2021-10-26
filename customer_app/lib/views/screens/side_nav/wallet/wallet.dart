@@ -1,5 +1,6 @@
 import 'package:customer_app/dataModels/transaction_model.dart';
 import 'package:customer_app/utils/dates.dart';
+import 'package:customer_app/views/screens/side_nav/wallet/past_transactions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:customer_app/services/graphql_services.dart';
@@ -61,7 +62,7 @@ class WalletScreen extends StatelessWidget {
                 ),
                 Query(
                   options: QueryOptions(
-                      document: gql(last7Transactions),
+                      document: gql(transactionByDate),
                       variables: {
                         "customerID": _userController.user.value.id,
                         "startDate": before7DaysFormat,
@@ -120,8 +121,7 @@ class WalletScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: OutlinedButton(
                       onPressed: () {
-                        launchSnack('Coming next',
-                            'Monthly transaction views coming soon');
+                        Get.to(() => PastTransactions());
                       },
                       child: Text('Past transactions')),
                 )

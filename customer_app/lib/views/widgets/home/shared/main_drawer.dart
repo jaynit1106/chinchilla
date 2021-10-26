@@ -4,7 +4,7 @@ import 'package:customer_app/views/screens/side_nav/developer_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:customer_app/controllers/authController.dart';
-import 'package:customer_app/views/screens/side_nav/wallet.dart';
+import 'package:customer_app/views/screens/side_nav/wallet/wallet.dart';
 
 final AuthController _authController = Get.find();
 final UserController _userController = Get.find();
