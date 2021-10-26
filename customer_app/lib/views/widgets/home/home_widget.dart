@@ -1,13 +1,11 @@
-import 'package:customer_app/controllers/productController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:customer_app/controllers/user_controller.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:customer_app/graphQL/query.dart';
-import 'package:customer_app/views/widgets/subs_card.dart';
-import 'package:customer_app/views/widgets/order_card.dart';
-import 'package:customer_app/dataModels/item_model.dart';
-import 'package:customer_app/utils/enums/enums.dart';
+import 'package:customer_app/controllers/user_controller.dart';
+import 'package:customer_app/controllers/productController.dart';
+import 'package:customer_app/views/widgets/home/subWidgets/home_order.dart';
+import 'package:customer_app/views/widgets/home/subWidgets/home_subscription.dart';
 
 class HomeWidget extends StatelessWidget {
   final UserController _userController = Get.find();
@@ -17,6 +15,8 @@ class HomeWidget extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
+          // Home Banner [Image]
+          // Displays on top
           Container(
             height: Get.height * 0.22,
             padding: EdgeInsets.only(right: 6),
@@ -24,6 +24,8 @@ class HomeWidget extends StatelessWidget {
               'assets/images/ss-cover.png',
             ),
           ),
+          // Query to store products in state
+          // Fetched [Products] according to your hub
           Query(
               options: QueryOptions(
                 document: gql(products),
@@ -46,6 +48,7 @@ class HomeWidget extends StatelessWidget {
                 }
                 return Container();
               }),
+          // Query to fetch ordersFor Today and subscriptions for customer
           Query(
               options: QueryOptions(
                 document: gql(customerHome),
@@ -62,106 +65,15 @@ class HomeWidget extends StatelessWidget {
                 if (result.data!['customer'] != null) {
                   return Column(
                     children: [
-                      Column(
-                          children: result.data!['customer']['ordersForToday']
-                                      .length >
-                                  0
-                              ? [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
-                                    child: Text(
-                                      'Order for Today',
-                                      style: Get.textTheme.headline1,
-                                    ),
-                                  ),
-                                  Container(
-                                    height: Get.height * 0.2,
-                                    child: ListView.builder(
-                                        scrollDirection: Axis.vertical,
-                                        shrinkWrap: true,
-                                        itemCount: result
-                                            .data!['customer']['ordersForToday']
-                                            .length,
-                                        itemBuilder: (context, index) {
-                                          return OrderCard(
-                                            price: 200,
-                                            status: parseOrderStatusEnum(
-                                              result.data!['customer']
-                                                      ['ordersForToday'][index]
-                                                  ['status'],
-                                            ),
-                                            date: result.data!['customer']
-                                                    ['ordersForToday'][index]
-                                                ['deliveryDate'],
-                                            items: result.data!['customer']
-                                                    ['ordersForToday'][index]
-                                                    ['items']
-                                                .map(
-                                                  (item) => Item(
-                                                      name: _productController
-                                                          .getProductName(item[
-                                                              'productID']),
-                                                      quantity:
-                                                          item['quantity']),
-                                                )
-                                                .toList(),
-                                          );
-                                        }),
-                                  ),
-                                ]
-                              : [Container()]),
-                      Column(
-                          children: result.data!['customer']['subscriptions']
-                                      .length >
-                                  0
-                              ? [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
-                                    child: Text(
-                                      'Subscriptions',
-                                      style: Get.textTheme.headline1,
-                                    ),
-                                  ),
-                                  Container(
-                                    height: Get.height * 0.30,
-                                    child: ListView.builder(
-                                        scrollDirection: Axis.vertical,
-                                        shrinkWrap: true,
-                                        itemCount: result
-                                            .data!['customer']['subscriptions']
-                                            .length,
-                                        itemBuilder: (context, index) {
-                                          return SubsCard(
-                                              price: 200,
-                                              status: parseSubsStatusEnum(
-                                                  result.data!['customer']
-                                                          ['subscriptions']
-                                                      [index]['status']),
-                                              nextDeliveryDate:
-                                                  result.data!['customer']
-                                                          ['subscriptions'][index]
-                                                      ['nextDeliveryDate'],
-                                              items: result.data!['customer']
-                                                      ['subscriptions'][index]
-                                                      ['items']
-                                                  .map(
-                                                    (item) => Item(
-                                                        name: _productController
-                                                            .getProductName(item[
-                                                                'productID']),
-                                                        quantity:
-                                                            item['quantity']),
-                                                  )
-                                                  .toList(),
-                                              frequency: result.data!['customer']
-                                                      ['subscriptions'][index]
-                                                  ['frequency']);
-                                        }),
-                                  ),
-                                ]
-                              : [Container()]),
+                      HomeOrder(
+                        productController: _productController,
+                        ordersForToday: result.data!['customer']
+                            ['ordersForToday'],
+                      ),
+                      HomeSubscription(
+                          productController: _productController,
+                          subscription: result.data!['customer']
+                              ['subscriptions']),
                     ],
                   );
                 }

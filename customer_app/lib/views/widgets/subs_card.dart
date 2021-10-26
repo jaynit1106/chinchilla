@@ -1,13 +1,13 @@
-import 'package:customer_app/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:customer_app/utils/color.dart';
 import 'package:customer_app/utils/enums/enums.dart';
 
 class SubsCard extends StatelessWidget {
   final int price;
   final SubStatus status;
   final String nextDeliveryDate;
-  final String endDate;
+  final String? endDate;
   final int frequency;
   final List<dynamic> items;
   const SubsCard({
@@ -17,7 +17,7 @@ class SubsCard extends StatelessWidget {
     required this.nextDeliveryDate,
     required this.items,
     required this.frequency,
-    this.endDate = '',
+    required this.endDate,
   }) : super(key: key);
 
   @override
@@ -122,9 +122,9 @@ class SubsCard extends StatelessWidget {
                         'ENDS:',
                       ),
                       Text(
-                        endDate != ''
+                        endDate != null
                             ? DateFormat.yMMMMd('en_US')
-                                .format(DateTime.parse(endDate))
+                                .format(DateTime.parse(endDate!))
                                 .toString()
                             : 'NEVER',
                         style: TextStyle(

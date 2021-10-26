@@ -39,11 +39,11 @@ class OrderCard extends StatelessWidget {
                   ),
                   Container(
                     color: status == OrderStatus.DELIVERED
-                        ? Colors.green
+                        ? Colors.blue
                         : status == OrderStatus.UNDELIVERED
                             ? Colors.red
                             : status == OrderStatus.ACTIVE
-                                ? Colors.blue
+                                ? Colors.green
                                 : Colors.amber,
                     padding: EdgeInsets.all(2.0),
                     child: Text(

@@ -21,4 +21,14 @@ class ProductController extends GetxController {
     Product _product = products.firstWhere((element) => element.id == id);
     return _product.name;
   }
+
+  int calculateTotal(List items) {
+    int total = 0;
+    items.forEach((item) {
+      Product _product =
+          products.firstWhere((element) => element.id == item['productID']);
+      total = total + _product.price * int.parse(item['quantity'].toString());
+    });
+    return total;
+  }
 }
