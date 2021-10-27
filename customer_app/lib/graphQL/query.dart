@@ -87,3 +87,29 @@ query past30DaysOneTimeOrders(\$customerID: String, \$startDate: Date, \$endDate
 }
 
 """;
+
+String contactQuery = """
+query contactQuery(\$customerID: ID) {
+  customer(id: \$customerID) {
+    location {
+      route {
+        executive {
+          firstName
+          lastName
+          photoURL
+          phone
+        }
+      }
+      region {
+        hub {
+          hubName
+          address
+          mobileNo
+          email
+        }
+      }
+    }
+  }
+}
+
+""";

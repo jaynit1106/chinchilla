@@ -53,7 +53,14 @@ class DeveloperInfo extends StatelessWidget {
             ),
             Text(cAboutGepton),
             SizedBox(
-              height: Get.height * 0.05,
+              height: Get.height * 0.02,
+            ),
+            Text(
+              cAboutGepton2,
+              style: Get.textTheme.headline5,
+            ),
+            SizedBox(
+              height: Get.height * 0.03,
             ),
             Container(
               width: double.infinity,
@@ -62,7 +69,7 @@ class DeveloperInfo extends StatelessWidget {
                     launchUrl("https://gepton.com");
                   },
                   child: Text(
-                    'Website',
+                    'Visit Website',
                     style: TextStyle(fontSize: 18),
                   )),
             ),
