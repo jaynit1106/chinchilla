@@ -98,6 +98,7 @@ class Contact extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return Card(
                               child: ListTile(
+                                trailing: Icon(Icons.call),
                                 onTap: () => launchUrl(
                                     'tel:${result.data!['customer']['location']['route']['executive'][index]['phone']}'),
                                 title: Text(
