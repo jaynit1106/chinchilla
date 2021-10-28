@@ -113,3 +113,14 @@ query contactQuery(\$customerID: ID) {
 }
 
 """;
+
+String addressQuery = """
+query addressQuery(\$id: ID){
+   customer(id: \$id) {
+    addresses {
+      id
+      name
+    }
+  }
+}
+""";
