@@ -7,9 +7,27 @@ class AddSubsController extends GetxController {
   RxInt frequency = 1.obs;
   Rx<DateTime> startDate = leastPermittedDate.obs;
   Rx<DateTime> endDate = current.obs;
+  RxString addressID = ''.obs;
 
   selectRadio(int value) {
     selectedRadio.value = value;
+  }
+
+  getCartItems(String id) {
+    return [
+      {"productID": id, "quantity": quantity.value}
+    ];
+  }
+
+  int getFrequency() {
+    if (selectedRadio.value == 1)
+      return 1;
+    else if (selectedRadio.value == 2) return 2;
+    return frequency.value;
+  }
+
+  selectAddressID(String address) {
+    addressID.value = address;
   }
 
   selectStartDate(DateTime date) {
