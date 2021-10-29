@@ -7,6 +7,7 @@ import 'package:customer_app/services/graphql_services.dart';
 import 'package:customer_app/services/remote_config.dart';
 import 'package:customer_app/controllers/authController.dart';
 import 'package:customer_app/controllers/addSubsController.dart';
+import 'package:customer_app/controllers/addressController.dart';
 
 class InitialBinding implements Bindings {
   @override
@@ -19,5 +20,6 @@ class InitialBinding implements Bindings {
     Get.lazyPut(() => UserController(), fenix: true);
     Get.lazyPut(() => ProductController(), fenix: true);
     Get.lazyPut(() => AddSubsController(), fenix: true);
+    Get.lazyPut(() => AddressController(), fenix: true);
   }
 }

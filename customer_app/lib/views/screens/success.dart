@@ -5,7 +5,12 @@ import 'package:get/get.dart';
 class Success extends StatelessWidget {
   final bool isSuccess;
   final String message;
-  const Success({Key? key, required this.isSuccess, required this.message})
+  final int popCount;
+  const Success(
+      {Key? key,
+      required this.isSuccess,
+      required this.message,
+      required this.popCount})
       : super(key: key);
 
   @override
@@ -44,8 +49,9 @@ class Success extends StatelessWidget {
             SizedBox(height: 25.0),
             ElevatedButton(
                 onPressed: () {
-                  Get.back();
-                  Get.back();
+                  for (int i = 0; i < popCount; i++) {
+                    Get.back();
+                  }
                 },
                 child: Text('BACK TO HOME'))
           ],

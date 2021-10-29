@@ -254,12 +254,17 @@ class SubscriptionPage extends StatelessWidget {
                         orderCache,
                     onError: (orderError) {
                       Get.to(() => Success(
-                          isSuccess: false, message: 'Please try again later'));
+                            isSuccess: false,
+                            message: 'Please try again later',
+                            popCount: 2,
+                          ));
                     },
                     onCompleted: (dynamic orderData) {
                       Get.to(() => Success(
-                          isSuccess: true,
-                          message: 'Your order has been placed successfully.'));
+                            isSuccess: true,
+                            message: 'Your order has been placed successfully.',
+                            popCount: 2,
+                          ));
                     },
                   ),
                   builder: (
@@ -274,10 +279,12 @@ class SubscriptionPage extends StatelessWidget {
                                   cache,
                           onError: (subsError) => Get.to(() => Success(
                               isSuccess: false,
+                              popCount: 2,
                               message: 'Please try again later')),
                           onCompleted: (dynamic subsData) {
                             Get.to(() => Success(
                                 isSuccess: true,
+                                popCount: 2,
                                 message: 'Your subscription has been added.'));
                           },
                         ),

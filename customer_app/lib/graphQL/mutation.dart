@@ -20,3 +20,11 @@ mutation addOrder(\$customerID: String!, \$routeID: String!, \$items: [Item]!, \
   }
 }
 """;
+String addAddress = """
+mutation addAddress(\$customerID: String!, \$name: String!) {
+  addAddress(name: \$name, customerID: \$customerID) {
+    id
+    name
+  }
+}
+""";
