@@ -12,7 +12,7 @@ class ProductCard extends StatelessWidget {
       elevation: 5,
       child: ListTile(
         title: Text(product.name),
-        subtitle: Text(product.price.toString()),
+        subtitle: Text('₹ ${product.price.toString()}'),
         trailing: Column(
           children: [
             ElevatedButton(
