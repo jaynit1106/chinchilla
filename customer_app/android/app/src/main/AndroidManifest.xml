@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:tools="http://schemas.android.com/tools"
     package="com.gepton.shreesurbhia2">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="Shree Surbhi: Milk Delivery App"
+           tools:replace="android:label"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

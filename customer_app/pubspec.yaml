@@ -22,6 +22,7 @@ dependencies:
   shared_preferences: ^2.0.7
   lottie: ^1.2.0
   intl: ^0.17.0
+  flutter_payu_unofficial: ^1.0.3
 
 dev_dependencies:
   flutter_test:

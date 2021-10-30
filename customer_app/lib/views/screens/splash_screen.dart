@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:customer_app/services/remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -12,12 +13,14 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+  RemoteConfigService _remoteConfigService = Get.find();
   GraphQLService _graphQLService = Get.find();
 
   @override
   void initState() {
     super.initState();
     Timer(Duration(seconds: 3), () => Get.off(() => RootCheck()));
+    _remoteConfigService.setupRemoteConfig();
     _graphQLService.setupGraphQL();
   }
 
