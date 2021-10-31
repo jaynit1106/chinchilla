@@ -10,5 +10,6 @@ class UserController extends GetxController {
     wallet: 0,
     routeID: '',
     hubID: '',
+    email: 'a@a.com',
   ).obs;
 }

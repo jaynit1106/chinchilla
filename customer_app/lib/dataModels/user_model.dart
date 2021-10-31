@@ -6,6 +6,7 @@ class User {
   String routeID;
   String hubID;
   int wallet;
+  String email;
   User({
     required this.id,
     required this.firstName,
@@ -14,5 +15,6 @@ class User {
     required this.wallet,
     required this.routeID,
     required this.hubID,
+    this.email = '',
   });
 }
