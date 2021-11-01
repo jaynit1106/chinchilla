@@ -1,18 +1,24 @@
-import 'package:customer_app/dataModels/transaction_model.dart';
-import 'package:customer_app/utils/dates.dart';
-import 'package:customer_app/views/screens/side_nav/wallet/past_transactions.dart';
+import 'package:customer_app/graphQL/mutation.dart';
+import 'package:customer_app/views/screens/success.dart';
+import 'package:customer_app/views/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:customer_app/services/graphql_services.dart';
 import 'package:customer_app/graphQL/query.dart';
+import 'package:customer_app/controllers/payumoneyController.dart';
+import 'package:customer_app/dataModels/transaction_model.dart';
+import 'package:customer_app/utils/dates.dart';
+import 'package:customer_app/views/screens/side_nav/wallet/past_transactions.dart';
 import 'package:customer_app/controllers/user_controller.dart';
-import 'package:customer_app/views/widgets/snackbar.dart';
 import 'package:customer_app/views/widgets/transaction_card.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class WalletScreen extends StatelessWidget {
   final GraphQLService _graphQLService = Get.find();
   final UserController _userController = Get.find();
+  final PayumoneyController _payumoneyController = Get.find();
+  final TextEditingController _walletController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +57,97 @@ class WalletScreen extends StatelessWidget {
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                launchSnack('Coming Soon',
-                                    'Payment gateway coming soon');
+                                Get.bottomSheet(
+                                    GraphQLProvider(
+                                      client: _graphQLService.client,
+                                      child: Mutation(
+                                        options: MutationOptions(
+                                          document: gql(addTransaction),
+                                          update: (GraphQLDataProxy
+                                                      transactionCache,
+                                                  QueryResult?
+                                                      transactionResult) =>
+                                              transactionCache,
+                                          onError: (transactionError) {
+                                            Get.to(() => Success(
+                                                  isSuccess: false,
+                                                  message:
+                                                      'Something went wrong',
+                                                  popCount: 3,
+                                                ));
+                                          },
+                                          onCompleted:
+                                              (dynamic transactionData) {
+                                            print(transactionData);
+                                            Get.to(() => Success(
+                                                isSuccess: true,
+                                                popCount: 3,
+                                                message:
+                                                    'Amount has been added successfully'));
+                                          },
+                                        ),
+                                        builder: (
+                                          RunMutation addTransaction,
+                                          QueryResult? transactionRes,
+                                        ) {
+                                          void executeAddTransaction() {
+                                            addTransaction({
+                                              "customerID":
+                                                  _userController.user.value.id,
+                                              "subTotal": int.parse(
+                                                  _payumoneyController
+                                                      .amount.value),
+                                              "date": today,
+                                              "isDebit": false,
+                                              "comment":
+                                                  "Wallet money added through app",
+                                            });
+                                          }
+
+                                          return Column(
+                                            children: [
+                                              Text('Add money'),
+                                              TextField(
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                decoration: InputDecoration(
+                                                  hintText: '2000',
+                                                  labelText:
+                                                      'Enter the recharge amount',
+                                                ),
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                                controller: _walletController,
+                                                onChanged: (value) {
+                                                  _payumoneyController
+                                                      .amount.value = value;
+                                                },
+                                              ),
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    if (_payumoneyController
+                                                                .amount.value ==
+                                                            '' ||
+                                                        _payumoneyController
+                                                                .amount.value ==
+                                                            '0') {
+                                                      launchSnack('Error',
+                                                          'Amount can\'t be null');
+                                                    } else {
+                                                      _payumoneyController
+                                                          .payuMoney(
+                                                              executeAddTransaction);
+                                                    }
+                                                  },
+                                                  child: Text('Proceed to pay'))
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    backgroundColor: Get.theme.backgroundColor);
                               },
                               child: Text('Add Money'))
                         ],

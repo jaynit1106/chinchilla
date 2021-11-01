@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
+import 'package:customer_app/views/screens/success.dart';
+import 'package:customer_app/views/widgets/snackbar.dart';
 import 'package:flutter_payu_unofficial/flutter_payu_unofficial.dart';
 import 'package:flutter_payu_unofficial/models/payment_result.dart';
 import 'package:flutter_payu_unofficial/models/payment_status.dart';
@@ -12,11 +14,12 @@ import 'package:customer_app/services/remote_config.dart';
 class PayumoneyController extends GetxController {
   final RemoteConfigService _remoteConfigService = Get.find();
   final UserController _userController = Get.find();
-  Future<void> payuMoney(String amount, String merchantID) async {
+  RxString amount = '0'.obs;
+  Future<void> payuMoney(Function executeAddTransaction) async {
     PaymentParams _paymentParam = PaymentParams(
       phone: _userController.user.value.phone,
-      amount: amount,
-      merchantID: merchantID,
+      amount: amount.value,
+      merchantID: 'Shree surbhi Jadkhor Godham',
       merchantKey: _remoteConfigService.payuMoneyMerchantKey,
       salt: _remoteConfigService.payuMoneySalt,
       email: _userController.user.value.email,
@@ -36,7 +39,7 @@ class PayumoneyController extends GetxController {
       udf9: "",
       udf10: "",
       hash: "",
-      isDebug: true,
+      isDebug: false,
     );
     //Generating local hash
     var bytes = utf8.encode(
@@ -55,17 +58,22 @@ class PayumoneyController extends GetxController {
         //_paymentResult.status is String of course. Directly fetched from payU's Payment response. More statuses can be compared manually
 
         if (_paymentResult.status == PayuPaymentStatus.success) {
-          print("Success: ${_paymentResult.response}");
+          executeAddTransaction();
         } else if (_paymentResult.status == PayuPaymentStatus.failed) {
-          print("Failed: ${_paymentResult.response}");
+          Get.to(() => Success(
+              isSuccess: false,
+              message: _paymentResult.status.toString(),
+              popCount: 3));
         } else if (_paymentResult.status == PayuPaymentStatus.cancelled) {
-          print("Cancelled by User: ${_paymentResult.response}");
+          Get.to(() => Success(
+              isSuccess: false,
+              message: _paymentResult.status.toString(),
+              popCount: 3));
         } else {
-          print("Response: ${_paymentResult.response}");
-          print("Status: ${_paymentResult.status}");
+          launchSnack('Error', _paymentResult.status.toString());
         }
       } else {
-        print("Something's rotten here");
+        launchSnack('Error', 'Something went wrong');
       }
     } catch (e) {
       print(e);
