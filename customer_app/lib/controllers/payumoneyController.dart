@@ -55,7 +55,6 @@ class PayumoneyController extends GetxController {
       if (_paymentResult != null) {
         return _paymentResult.status;
         //_paymentResult.status is String of course. Directly fetched from payU's Payment response. More statuses can be compared manually
-
       } else {
         launchSnack('Error', 'Something went wrong');
       }

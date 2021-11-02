@@ -44,7 +44,7 @@ class OrdersView extends StatelessWidget {
                 if (result.data!['OneTimeOrdersByCustomerIDAndDate'].length >
                     0) {
                   return Container(
-                    height: Get.height * 0.8,
+                    height: Get.height * 0.77,
                     child: ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,

@@ -306,10 +306,12 @@ class SubscriptionPage extends StatelessWidget {
                                             .getCartItems(product.id),
                                         "startDate": _addSubsController
                                             .startDate.value
+                                            .add(Duration(minutes: 330))
                                             .toUtc()
                                             .toIso8601String(),
                                         "endDate": _addSubsController
                                             .endDate.value
+                                            .add(Duration(minutes: 330))
                                             .toUtc()
                                             .toIso8601String(),
                                         "addressID":
@@ -325,6 +327,7 @@ class SubscriptionPage extends StatelessWidget {
                                             .getCartItems(product.id),
                                         "startDate": _addSubsController
                                             .startDate.value
+                                            .add(Duration(minutes: 330))
                                             .toUtc()
                                             .toIso8601String(),
                                         "addressID":
@@ -343,6 +346,7 @@ class SubscriptionPage extends StatelessWidget {
                                           .getCartItems(product.id),
                                       "deliveryDate": _addSubsController
                                           .startDate.value
+                                          .add(Duration(minutes: 330))
                                           .toUtc()
                                           .toIso8601String(),
                                       "addressID":

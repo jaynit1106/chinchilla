@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:flutter_payu_unofficial/models/payment_status.dart';
 import 'package:customer_app/graphQL/mutation.dart';
 import 'package:customer_app/views/screens/success.dart';
 import 'package:customer_app/views/widgets/snackbar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_payu_unofficial/models/payment_status.dart';
-import 'package:get/get.dart';
 import 'package:customer_app/services/graphql_services.dart';
 import 'package:customer_app/graphQL/query.dart';
 import 'package:customer_app/controllers/payumoneyController.dart';
@@ -13,7 +14,6 @@ import 'package:customer_app/utils/dates.dart';
 import 'package:customer_app/views/screens/side_nav/wallet/past_transactions.dart';
 import 'package:customer_app/controllers/user_controller.dart';
 import 'package:customer_app/views/widgets/transaction_card.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 
 class WalletScreen extends StatelessWidget {
   final GraphQLService _graphQLService = Get.find();
@@ -70,7 +70,6 @@ class WalletScreen extends StatelessWidget {
                                     ));
                               },
                               onCompleted: (dynamic transactionData) {
-                                print(transactionData);
                                 Get.to(() => Success(
                                     isSuccess: true,
                                     popCount: 3,
@@ -79,91 +78,100 @@ class WalletScreen extends StatelessWidget {
                               },
                             ),
                             builder: (
-                              RunMutation addTransaction,
+                              RunMutation runAddTransaction,
                               QueryResult? transactionRes,
                             ) {
                               return ElevatedButton(
                                   onPressed: () {
                                     Get.bottomSheet(
-                                      Column(
-                                        children: [
-                                          Text('Add money'),
-                                          TextField(
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                              hintText: '2000',
-                                              labelText:
-                                                  'Enter the recharge amount',
-                                            ),
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter
-                                                  .digitsOnly
-                                            ],
-                                            controller: _walletController,
-                                            onChanged: (value) {
-                                              _payumoneyController
-                                                  .amount.value = value;
-                                            },
-                                          ),
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                if (_payumoneyController
-                                                            .amount.value ==
-                                                        '' ||
-                                                    _payumoneyController
-                                                            .amount.value ==
-                                                        '0') {
-                                                  launchSnack('Error',
-                                                      'Amount can\'t be null');
-                                                } else {
-                                                  Future<String?>
-                                                      paymentStatus =
-                                                      _payumoneyController
-                                                          .payuMoney();
-                                                  if (paymentStatus
-                                                          .toString() ==
-                                                      PayuPaymentStatus
-                                                          .success) {
-                                                    addTransaction({
-                                                      "customerID":
-                                                          _userController
-                                                              .user.value.id,
-                                                      "subTotal": int.parse(
-                                                          _payumoneyController
-                                                              .amount.value),
-                                                      "date": today,
-                                                      "isDebit": false,
-                                                      "comment":
-                                                          "Wallet money added through app",
-                                                    });
-                                                  } else if (paymentStatus
-                                                          .toString() ==
-                                                      PayuPaymentStatus
-                                                          .failed) {
-                                                    Get.to(() => Success(
-                                                        isSuccess: false,
-                                                        message: paymentStatus
-                                                            .toString(),
-                                                        popCount: 3));
-                                                  } else if (paymentStatus
-                                                          .toString() ==
-                                                      PayuPaymentStatus
-                                                          .cancelled) {
-                                                    Get.to(() => Success(
-                                                        isSuccess: false,
-                                                        message: paymentStatus
-                                                            .toString(),
-                                                        popCount: 3));
-                                                  } else {
-                                                    launchSnack(
-                                                        'Error',
-                                                        paymentStatus
-                                                            .toString());
-                                                  }
-                                                }
+                                      Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Column(
+                                          children: [
+                                            Text('Add money'),
+                                            TextField(
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: InputDecoration(
+                                                hintText: '2000',
+                                                labelText:
+                                                    'Enter the recharge amount',
+                                              ),
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              controller: _walletController,
+                                              onChanged: (String value) {
+                                                _payumoneyController
+                                                    .amount.value = value;
                                               },
-                                              child: Text('Proceed to pay'))
-                                        ],
+                                            ),
+                                            ElevatedButton(
+                                                onPressed: () async {
+                                                  if (_payumoneyController
+                                                              .amount.value ==
+                                                          '' ||
+                                                      _payumoneyController
+                                                              .amount.value ==
+                                                          '0') {
+                                                    launchSnack('Error',
+                                                        'Amount can\'t be null');
+                                                  } else {
+                                                    String? paymentStatus =
+                                                        await _payumoneyController
+                                                            .payuMoney();
+                                                    if (paymentStatus
+                                                            .toString() ==
+                                                        PayuPaymentStatus
+                                                            .success) {
+                                                      runAddTransaction({
+                                                        "customerID":
+                                                            _userController
+                                                                .user.value.id,
+                                                        "subTotal": int.parse(
+                                                            _payumoneyController
+                                                                .amount.value
+                                                                .toString()),
+                                                        "date": new DateTime
+                                                                .now()
+                                                            .add(Duration(
+                                                                minutes: 330))
+                                                            .toUtc()
+                                                            .toIso8601String(),
+                                                        "isDebit": false,
+                                                        "comment":
+                                                            "Wallet money added through app",
+                                                      });
+                                                    } else if (paymentStatus
+                                                            .toString() ==
+                                                        PayuPaymentStatus
+                                                            .failed) {
+                                                      Get.to(() => Success(
+                                                          isSuccess: false,
+                                                          message: paymentStatus
+                                                              .toString(),
+                                                          popCount: 3));
+                                                    } else if (paymentStatus
+                                                            .toString() ==
+                                                        PayuPaymentStatus
+                                                            .cancelled) {
+                                                      Get.to(() => Success(
+                                                          isSuccess: false,
+                                                          message: paymentStatus
+                                                              .toString(),
+                                                          popCount: 3));
+                                                    } else {
+                                                      launchSnack(
+                                                          'Error',
+                                                          paymentStatus
+                                                              .toString());
+                                                    }
+                                                  }
+                                                },
+                                                child: Text('Proceed to pay'))
+                                          ],
+                                        ),
                                       ),
                                       backgroundColor:
                                           Get.theme.backgroundColor,
@@ -183,7 +191,7 @@ class WalletScreen extends StatelessWidget {
                       variables: {
                         "customerID": _userController.user.value.id,
                         "startDate": before7DaysFormat,
-                        "endDate": todayFormat,
+                        "endDate": past1000DaysFormat,
                       }),
                   builder: (QueryResult result,
                       {VoidCallback? refetch, FetchMore? fetchMore}) {
