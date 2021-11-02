@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
-import 'package:customer_app/views/screens/success.dart';
 import 'package:customer_app/views/widgets/snackbar.dart';
 import 'package:flutter_payu_unofficial/flutter_payu_unofficial.dart';
 import 'package:flutter_payu_unofficial/models/payment_result.dart';
-import 'package:flutter_payu_unofficial/models/payment_status.dart';
 import 'package:get/get.dart';
 import 'package:flutter_payu_unofficial/models/payment_params_model.dart';
 import 'package:customer_app/controllers/user_controller.dart';
@@ -15,7 +13,7 @@ class PayumoneyController extends GetxController {
   final RemoteConfigService _remoteConfigService = Get.find();
   final UserController _userController = Get.find();
   RxString amount = '0'.obs;
-  Future<void> payuMoney(Function executeAddTransaction) async {
+  Future<String?> payuMoney() async {
     PaymentParams _paymentParam = PaymentParams(
       phone: _userController.user.value.phone,
       amount: amount.value,
@@ -55,23 +53,9 @@ class PayumoneyController extends GetxController {
       //Checks for success and prints result
 
       if (_paymentResult != null) {
+        return _paymentResult.status;
         //_paymentResult.status is String of course. Directly fetched from payU's Payment response. More statuses can be compared manually
 
-        if (_paymentResult.status == PayuPaymentStatus.success) {
-          executeAddTransaction();
-        } else if (_paymentResult.status == PayuPaymentStatus.failed) {
-          Get.to(() => Success(
-              isSuccess: false,
-              message: _paymentResult.status.toString(),
-              popCount: 3));
-        } else if (_paymentResult.status == PayuPaymentStatus.cancelled) {
-          Get.to(() => Success(
-              isSuccess: false,
-              message: _paymentResult.status.toString(),
-              popCount: 3));
-        } else {
-          launchSnack('Error', _paymentResult.status.toString());
-        }
       } else {
         launchSnack('Error', 'Something went wrong');
       }
