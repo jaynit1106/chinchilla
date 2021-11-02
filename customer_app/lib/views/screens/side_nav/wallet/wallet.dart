@@ -48,14 +48,33 @@ class WalletScreen extends StatelessWidget {
                             'Wallet Balance',
                             style: Theme.of(context).textTheme.headline6,
                           ),
-                          Text(
-                            '₹ ${_userController.user.value.wallet}',
-                            style: TextStyle(
-                              fontSize: Get.height * 0.06,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.green,
-                            ),
-                          ),
+                          Query(
+                              options: QueryOptions(
+                                  document: gql(walletById),
+                                  variables: {
+                                    "id": _userController.user.value.id
+                                  }),
+                              builder: (QueryResult result,
+                                  {VoidCallback? refetch,
+                                  FetchMore? fetchMore}) {
+                                if (result.hasException) {
+                                  return Text(result.exception.toString());
+                                }
+                                if (result.isLoading) {
+                                  return CircularProgressIndicator();
+                                }
+                                if (result.data!['customer'] != null) {
+                                  return Text(
+                                    '₹ ${result.data!['customer']['wallet']}',
+                                    style: TextStyle(
+                                      fontSize: Get.height * 0.06,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.green,
+                                    ),
+                                  );
+                                }
+                                return CircularProgressIndicator();
+                              }),
                           Mutation(
                             options: MutationOptions(
                               document: gql(addTransaction),

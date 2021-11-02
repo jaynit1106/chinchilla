@@ -34,8 +34,6 @@ class UserCheck extends StatelessWidget {
                 result.data!['customerByPhone']['lastName'];
             _userController.user.value.phone =
                 result.data!['customerByPhone']['phone'];
-            _userController.user.value.wallet =
-                result.data!['customerByPhone']['wallet'];
             _userController.user.value.routeID =
                 result.data!['customerByPhone']['location']['routeID'];
             _userController.user.value.hubID =

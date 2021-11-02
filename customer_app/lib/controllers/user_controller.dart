@@ -7,7 +7,6 @@ class UserController extends GetxController {
     firstName: '',
     lastName: '',
     phone: '',
-    wallet: 0,
     routeID: '',
     hubID: '',
     email: 'app@shreesurbhi.com',

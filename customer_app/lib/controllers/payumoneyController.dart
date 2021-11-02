@@ -52,6 +52,7 @@ class PayumoneyController extends GetxController {
 
       //Checks for success and prints result
 
+      // ignore: unnecessary_null_comparison
       if (_paymentResult != null) {
         return _paymentResult.status;
         //_paymentResult.status is String of course. Directly fetched from payU's Payment response. More statuses can be compared manually

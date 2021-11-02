@@ -18,7 +18,6 @@ query customerByPhone(\$phone: String) {
     firstName
     lastName
     phone
-    wallet
     location {
       routeID
       region {
@@ -123,4 +122,12 @@ query addressQuery(\$id: ID){
     }
   }
 }
+""";
+String walletById = """
+query customer(\$id: ID) {
+  customer(id: \$id) {
+    wallet
+  }
+}
+
 """;
