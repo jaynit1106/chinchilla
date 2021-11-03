@@ -28,6 +28,14 @@ mutation addAddress(\$customerID: String!, \$name: String!) {
   }
 }
 """;
+// String editAddress = """
+// mutation editAddress(\$customerID: String!, \$name: String!) {
+//   editAddress(name: \$name, customerID: \$customerID) {
+//     id
+//     name
+//   }
+// }
+// """;
 String addTransaction = """
 mutation addTransaction(\$subTotal: Int!, \$customerID: String!, \$date: DateTime!, \$isDebit: Boolean!, \$comment: String) {
   addTransaction(subTotal: \$subTotal, customerID: \$customerID, date: \$date, isDebit: \$isDebit, comment: \$comment) {

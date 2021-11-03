@@ -44,9 +44,96 @@ class AddressScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return Card(
                             elevation: 5,
-                            child: ListTile(
-                              title: Text(result.data!['customer']['addresses']
-                                  [index]['name']),
+                            child: Mutation(
+                              options: MutationOptions(
+                                document: gql(addAddress),
+                                update: (GraphQLDataProxy addressCache,
+                                        QueryResult? addressResult) =>
+                                    addressCache,
+                                onError: (addressError) {
+                                  Get.to(() => Success(
+                                        isSuccess: false,
+                                        message: 'Please try again later',
+                                        popCount: 3,
+                                      ));
+                                },
+                                onCompleted: (dynamic addressData) {
+                                  Get.to(() => Success(
+                                      isSuccess: true,
+                                      popCount: 3,
+                                      message:
+                                          'Address has been added successfully'));
+                                },
+                              ),
+                              builder: (
+                                RunMutation addAddress,
+                                QueryResult? addressRes,
+                              ) {
+                                return ListTile(
+                                  title: Text(result.data!['customer']
+                                      ['addresses'][index]['name']),
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      launchSnack('Coming soon',
+                                          'Editing address coming soon with next version');
+                                      // Todo: Add edit address option
+                                      // Get.bottomSheet(
+                                      //     Padding(
+                                      //       padding: const EdgeInsets.all(16.0),
+                                      //       child: Column(
+                                      //         mainAxisAlignment:
+                                      //             MainAxisAlignment
+                                      //                 .spaceBetween,
+                                      //         crossAxisAlignment:
+                                      //             CrossAxisAlignment.center,
+                                      //         children: [
+                                      //           Text(
+                                      //             'Add new address',
+                                      //             style:
+                                      //                 Get.textTheme.headline1,
+                                      //           ),
+                                      //           TextField(
+                                      //             controller: _address,
+                                      //             decoration: InputDecoration(
+                                      //               hintText:
+                                      //                   'HN 1, Tech block, Gepton city - 123456',
+                                      //               labelText:
+                                      //                   'Please enter your complete address',
+                                      //             ),
+                                      //             onChanged: (String value) {
+                                      //               _addressController
+                                      //                   .name.value = value;
+                                      //             },
+                                      //           ),
+                                      //           ElevatedButton(
+                                      //             onPressed: () {
+                                      //               if (_addressController
+                                      //                       .name.value !=
+                                      //                   '') {
+                                      //                 addAddress({
+                                      //                   "customerID":
+                                      //                       _userController
+                                      //                           .user.value.id,
+                                      //                   "name":
+                                      //                       _addressController
+                                      //                           .name.value,
+                                      //                 });
+                                      //               } else {
+                                      //                 launchSnack('Error',
+                                      //                     'Address can\'t be null');
+                                      //               }
+                                      //             },
+                                      //             child: Text('Add address'),
+                                      //           ),
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //     backgroundColor: kBgColor);
+                                    },
+                                    icon: Icon(Icons.edit),
+                                  ),
+                                );
+                              },
                             ),
                           );
                         });
