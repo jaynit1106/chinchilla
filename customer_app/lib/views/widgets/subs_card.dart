@@ -269,6 +269,14 @@ class SubsCard extends StatelessWidget {
                           Divider(),
                           TextButton(
                             onPressed: () {
+                              _editSubsController.setDates(
+                                  nextDeliveryDate, endDate);
+                              _editSubsController.setItem(items
+                                  .map((e) => {
+                                        "productID": e.id,
+                                        "quantity": e.quantity,
+                                      })
+                                  .toList());
                               Get.bottomSheet(
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
@@ -277,6 +285,64 @@ class SubsCard extends StatelessWidget {
                                       Text(
                                         'Edit subscription',
                                         style: Get.textTheme.headline1,
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: Get.height * 0.01,
+                                        ),
+                                        height: Get.height * 0.20,
+                                        child: ListView.builder(
+                                            scrollDirection: Axis.vertical,
+                                            itemCount: items.length,
+                                            itemBuilder: (context, index) {
+                                              return ListTile(
+                                                leading: Image.network(
+                                                  items[index].photoURL,
+                                                ),
+                                                title: Text(items[index].name),
+                                                subtitle: Text(
+                                                  '₹ ${items[index].price.toString()}',
+                                                ),
+                                                trailing: Container(
+                                                  width: Get.width * 0.32,
+                                                  child: Row(
+                                                    children: [
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          _editSubsController
+                                                              .decreaseQuantity(
+                                                                  items[index]
+                                                                      .id);
+                                                        },
+                                                        icon:
+                                                            Icon(Icons.remove),
+                                                      ),
+                                                      Obx(
+                                                        () => Text(
+                                                          _editSubsController
+                                                              .getQuantity(
+                                                                items[index].id,
+                                                              )
+                                                              .toString(),
+                                                        ),
+                                                      ),
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          _editSubsController
+                                                              .increaseQuantity(
+                                                                  items[index]
+                                                                      .id);
+                                                        },
+                                                        icon: Icon(Icons.add),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.02,
                                       ),
                                       ListTile(
                                         leading: Icon(Icons.calendar_today),
