@@ -48,6 +48,9 @@ class EditSubsController extends GetxController {
   }
 
   selectStartDate(DateTime date) {
+    if (date.difference(endDate.value).inHours > 0) {
+      removeEndDate();
+    }
     nextDeliveryDate.value = date;
   }
 }

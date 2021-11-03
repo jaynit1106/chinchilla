@@ -269,8 +269,11 @@ class SubsCard extends StatelessWidget {
                           Divider(),
                           TextButton(
                             onPressed: () {
-                              _editSubsController.setDates(
-                                  nextDeliveryDate, endDate);
+                              endDate != null
+                                  ? _editSubsController.setDates(
+                                      nextDeliveryDate, endDate)
+                                  : _editSubsController.setDates(
+                                      nextDeliveryDate, current.toString());
                               _editSubsController.setItem(items
                                   .map((e) => {
                                         "productID": e.id,
@@ -347,11 +350,11 @@ class SubsCard extends StatelessWidget {
                                       ListTile(
                                         leading: Icon(Icons.calendar_today),
                                         title: Text('Next delivery:'),
-                                        subtitle: Text(
+                                        subtitle: Obx(() => Text(
                                             DateFormat.yMMMMd('en_US')
                                                 .format(_editSubsController
                                                     .nextDeliveryDate.value)
-                                                .toString()),
+                                                .toString())),
                                         trailing: TextButton(
                                             onPressed: () async {
                                               final DateTime? picked =
@@ -374,13 +377,13 @@ class SubsCard extends StatelessWidget {
                                       ListTile(
                                         leading: Icon(Icons.calendar_today),
                                         title: Text('Ends'),
-                                        subtitle: Text(
+                                        subtitle: Obx(() => Text(
                                             _editSubsController.endDate.value !=
                                                     current
                                                 ? DateFormat.yMMMMd('en_US')
                                                     .format(_editSubsController
                                                         .endDate.value)
-                                                : 'NEVER'),
+                                                : 'NEVER')),
                                         trailing: Container(
                                           width: Get.height * 0.133,
                                           child: Row(
