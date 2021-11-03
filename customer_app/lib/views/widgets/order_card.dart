@@ -174,120 +174,124 @@ class OrderCard extends StatelessWidget {
                               Get.bottomSheet(
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Edit Order',
-                                          style: Get.textTheme.headline1,
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: Get.height * 0.02,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'Edit Order',
+                                            style: Get.textTheme.headline1,
                                           ),
-                                          height: Get.height * 0.25,
-                                          child: ListView.builder(
-                                              scrollDirection: Axis.vertical,
-                                              itemCount: items.length,
-                                              itemBuilder: (context, index) {
-                                                return ListTile(
-                                                  leading: Image.network(
-                                                    items[index].photoURL,
-                                                  ),
-                                                  title:
-                                                      Text(items[index].name),
-                                                  subtitle: Text(
-                                                    '₹ ${items[index].price.toString()}',
-                                                  ),
-                                                  trailing: Container(
-                                                    width: Get.width * 0.32,
-                                                    child: Row(
-                                                      children: [
-                                                        IconButton(
-                                                          onPressed: () {
-                                                            _editOrderController
-                                                                .decreaseQuantity(
-                                                                    items[index]
-                                                                        .id);
-                                                          },
-                                                          icon: Icon(
-                                                              Icons.remove),
-                                                        ),
-                                                        Obx(
-                                                          () => Text(
-                                                            _editOrderController
-                                                                .getQuantity(
-                                                                  items[index]
-                                                                      .id,
-                                                                )
-                                                                .toString(),
-                                                          ),
-                                                        ),
-                                                        IconButton(
-                                                          onPressed: () {
-                                                            _editOrderController
-                                                                .increaseQuantity(
-                                                                    items[index]
-                                                                        .id);
-                                                          },
-                                                          icon: Icon(Icons.add),
-                                                        ),
-                                                      ],
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: Get.height * 0.02,
+                                            ),
+                                            height: Get.height * 0.25,
+                                            child: ListView.builder(
+                                                scrollDirection: Axis.vertical,
+                                                itemCount: items.length,
+                                                itemBuilder: (context, index) {
+                                                  return ListTile(
+                                                    leading: Image.network(
+                                                      items[index].photoURL,
                                                     ),
-                                                  ),
-                                                );
-                                              }),
-                                        ),
-                                        SizedBox(
-                                          height: Get.height * 0.02,
-                                        ),
-                                        ListTile(
-                                          leading: Icon(Icons.calendar_today),
-                                          title: Text('Delivery date:'),
-                                          subtitle: Obx(() => Text(
-                                              DateFormat.yMMMMd('en_US')
-                                                  .format(_editOrderController
-                                                      .deliveryDate.value)
-                                                  .toString())),
-                                          trailing: TextButton(
-                                              onPressed: () async {
-                                                final DateTime? picked =
-                                                    await showDatePicker(
-                                                  context: context,
-                                                  initialDate:
-                                                      _editOrderController
-                                                          .deliveryDate.value,
-                                                  firstDate:
-                                                      DateTime.parse(date),
-                                                  lastDate:
-                                                      DateTime(today.year + 2),
-                                                );
-                                                if (picked != null) {
-                                                  _editOrderController
-                                                      .setDeliveryDate(picked);
-                                                }
-                                              },
-                                              child: Text('SELECT')),
-                                        ),
-                                        SizedBox(
-                                          height: Get.height * 0.02,
-                                        ),
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              editOrder({
-                                                "id": id,
-                                                "deliveryDate":
+                                                    title:
+                                                        Text(items[index].name),
+                                                    subtitle: Text(
+                                                      '₹ ${items[index].price.toString()}',
+                                                    ),
+                                                    trailing: Container(
+                                                      width: Get.width * 0.32,
+                                                      child: Row(
+                                                        children: [
+                                                          IconButton(
+                                                            onPressed: () {
+                                                              _editOrderController
+                                                                  .decreaseQuantity(
+                                                                      items[index]
+                                                                          .id);
+                                                            },
+                                                            icon: Icon(
+                                                                Icons.remove),
+                                                          ),
+                                                          Obx(
+                                                            () => Text(
+                                                              _editOrderController
+                                                                  .getQuantity(
+                                                                    items[index]
+                                                                        .id,
+                                                                  )
+                                                                  .toString(),
+                                                            ),
+                                                          ),
+                                                          IconButton(
+                                                            onPressed: () {
+                                                              _editOrderController
+                                                                  .increaseQuantity(
+                                                                      items[index]
+                                                                          .id);
+                                                            },
+                                                            icon:
+                                                                Icon(Icons.add),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                }),
+                                          ),
+                                          SizedBox(
+                                            height: Get.height * 0.02,
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.calendar_today),
+                                            title: Text('Delivery date:'),
+                                            subtitle: Obx(() => Text(
+                                                DateFormat.yMMMMd('en_US')
+                                                    .format(_editOrderController
+                                                        .deliveryDate.value)
+                                                    .toString())),
+                                            trailing: TextButton(
+                                                onPressed: () async {
+                                                  final DateTime? picked =
+                                                      await showDatePicker(
+                                                    context: context,
+                                                    initialDate:
+                                                        _editOrderController
+                                                            .deliveryDate.value,
+                                                    firstDate:
+                                                        DateTime.parse(date),
+                                                    lastDate: DateTime(
+                                                        today.year + 2),
+                                                  );
+                                                  if (picked != null) {
                                                     _editOrderController
-                                                        .deliveryDate.value
-                                                        .add(Duration(
-                                                            minutes: 330))
-                                                        .toUtc()
-                                                        .toIso8601String(),
-                                                "items":
-                                                    _editOrderController.items,
-                                              });
-                                            },
-                                            child: Text('Update order'))
-                                      ],
+                                                        .setDeliveryDate(
+                                                            picked);
+                                                  }
+                                                },
+                                                child: Text('SELECT')),
+                                          ),
+                                          SizedBox(
+                                            height: Get.height * 0.02,
+                                          ),
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                editOrder({
+                                                  "id": id,
+                                                  "deliveryDate":
+                                                      _editOrderController
+                                                          .deliveryDate.value
+                                                          .add(Duration(
+                                                              minutes: 330))
+                                                          .toUtc()
+                                                          .toIso8601String(),
+                                                  "items": _editOrderController
+                                                      .items,
+                                                });
+                                              },
+                                              child: Text('Update order'))
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   backgroundColor: Get.theme.backgroundColor);

@@ -107,7 +107,10 @@ class WalletScreen extends StatelessWidget {
                                         padding: const EdgeInsets.all(16.0),
                                         child: Column(
                                           children: [
-                                            Text('Add money'),
+                                            Text(
+                                              'Add money',
+                                              style: Get.textTheme.headline1,
+                                            ),
                                             TextField(
                                               keyboardType:
                                                   TextInputType.number,

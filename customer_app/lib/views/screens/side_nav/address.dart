@@ -188,42 +188,45 @@ class AddressScreen extends StatelessWidget {
                       Get.bottomSheet(
                           Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Add new address',
-                                  style: Get.textTheme.headline1,
-                                ),
-                                TextField(
-                                  controller: _address,
-                                  decoration: InputDecoration(
-                                    hintText:
-                                        'HN 1, Tech block, Gepton city - 123456',
-                                    labelText:
-                                        'Please enter your complete address',
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Add new address',
+                                    style: Get.textTheme.headline1,
                                   ),
-                                  onChanged: (String value) {
-                                    _addressController.name.value = value;
-                                  },
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    if (_addressController.name.value != '') {
-                                      addAddress({
-                                        "customerID":
-                                            _userController.user.value.id,
-                                        "name": _addressController.name.value,
-                                      });
-                                    } else {
-                                      launchSnack(
-                                          'Error', 'Address can\'t be null');
-                                    }
-                                  },
-                                  child: Text('Add address'),
-                                ),
-                              ],
+                                  TextField(
+                                    controller: _address,
+                                    decoration: InputDecoration(
+                                      hintText:
+                                          'HN 1, Tech block, Gepton city - 123456',
+                                      labelText:
+                                          'Please enter your complete address',
+                                    ),
+                                    onChanged: (String value) {
+                                      _addressController.name.value = value;
+                                    },
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      if (_addressController.name.value != '') {
+                                        addAddress({
+                                          "customerID":
+                                              _userController.user.value.id,
+                                          "name": _addressController.name.value,
+                                        });
+                                      } else {
+                                        launchSnack(
+                                            'Error', 'Address can\'t be null');
+                                      }
+                                    },
+                                    child: Text('Add address'),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           backgroundColor: kBgColor);
