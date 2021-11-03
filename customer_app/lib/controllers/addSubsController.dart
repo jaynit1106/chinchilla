@@ -31,6 +31,9 @@ class AddSubsController extends GetxController {
   }
 
   selectStartDate(DateTime date) {
+    if (date.difference(endDate.value).inHours > 0) {
+      removeEndDate();
+    }
     startDate.value = date;
   }
 
