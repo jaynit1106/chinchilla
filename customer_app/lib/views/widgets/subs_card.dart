@@ -1,16 +1,20 @@
+import 'package:customer_app/controllers/editSubsController.dart';
+import 'package:customer_app/utils/dates.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:customer_app/utils/color.dart';
 import 'package:customer_app/utils/enums/enums.dart';
 
 class SubsCard extends StatelessWidget {
+  final EditSubsController _editSubsController = Get.find();
   final int price;
   final SubStatus status;
   final String nextDeliveryDate;
   final String? endDate;
   final int frequency;
   final List<dynamic> items;
-  const SubsCard({
+  SubsCard({
     Key? key,
     required this.price,
     required this.status,
@@ -137,21 +141,149 @@ class SubsCard extends StatelessWidget {
                 ],
               ),
             ),
-            // Divider(),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //   children: [
-            //     TextButton(
-            //       onPressed: () {},
-            //       child: Text('PAUSE'),
-            //     ),
-            //     Divider(),
-            //     TextButton(
-            //       onPressed: () {},
-            //       child: Text('EDIT'),
-            //     ),
-            //   ],
-            // ),
+            Divider(),
+            status != SubStatus.COMPLETED
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Get.bottomSheet(
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'PAUSE',
+                                    style: Get.textTheme.headline1,
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.calendar_today),
+                                    title: Text('Ends'),
+                                    subtitle: Text(_editSubsController
+                                                .endDate.value !=
+                                            current
+                                        ? DateFormat.yMMMMd('en_US').format(
+                                            _editSubsController.endDate.value)
+                                        : 'NEVER'),
+                                    trailing: Container(
+                                      width: Get.height * 0.133,
+                                      child: Row(
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                _editSubsController
+                                                    .removeEndDate();
+                                              },
+                                              icon: Icon(Icons.delete)),
+                                          TextButton(
+                                              onPressed: () async {
+                                                final DateTime? picked =
+                                                    await showDatePicker(
+                                                  context: context,
+                                                  initialDate:
+                                                      _editSubsController
+                                                                  .endDate
+                                                                  .value !=
+                                                              current
+                                                          ? _editSubsController
+                                                              .endDate.value
+                                                          : _editSubsController
+                                                              .startDate.value,
+                                                  firstDate: _editSubsController
+                                                      .startDate.value,
+                                                  lastDate:
+                                                      DateTime(today.year + 2),
+                                                );
+                                                if (picked != null) {
+                                                  _editSubsController
+                                                      .endDate(picked);
+                                                }
+                                              },
+                                              child: Text('SELECT')),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            backgroundColor: Get.theme.backgroundColor,
+                          );
+                        },
+                        child: Text('PAUSE'),
+                      ),
+                      Divider(),
+                      TextButton(
+                        onPressed: () {
+                          Get.bottomSheet(
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Edit subscription',
+                                    style: Get.textTheme.headline1,
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.calendar_today),
+                                    title: Text('Ends'),
+                                    subtitle: Text(_editSubsController
+                                                .endDate.value !=
+                                            current
+                                        ? DateFormat.yMMMMd('en_US').format(
+                                            _editSubsController.endDate.value)
+                                        : 'NEVER'),
+                                    trailing: Container(
+                                      width: Get.height * 0.133,
+                                      child: Row(
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                _editSubsController
+                                                    .removeEndDate();
+                                              },
+                                              icon: Icon(Icons.delete)),
+                                          TextButton(
+                                              onPressed: () async {
+                                                final DateTime? picked =
+                                                    await showDatePicker(
+                                                  context: context,
+                                                  initialDate:
+                                                      _editSubsController
+                                                                  .endDate
+                                                                  .value !=
+                                                              current
+                                                          ? _editSubsController
+                                                              .endDate.value
+                                                          : _editSubsController
+                                                              .startDate.value,
+                                                  firstDate: _editSubsController
+                                                      .startDate.value,
+                                                  lastDate:
+                                                      DateTime(today.year + 2),
+                                                );
+                                                if (picked != null) {
+                                                  _editSubsController
+                                                      .endDate(picked);
+                                                }
+                                              },
+                                              child: Text('SELECT')),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            backgroundColor: Get.theme.backgroundColor,
+                          );
+                        },
+                        child: Text('EDIT'),
+                      ),
+                    ],
+                  )
+                : Container(),
           ],
         ),
       ),
