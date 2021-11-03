@@ -2,6 +2,7 @@ import 'package:customer_app/controllers/editSubsController.dart';
 import 'package:customer_app/graphQL/mutation.dart';
 import 'package:customer_app/utils/dates.dart';
 import 'package:customer_app/views/screens/success.dart';
+import 'package:customer_app/views/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -11,6 +12,7 @@ import 'package:customer_app/utils/enums/enums.dart';
 
 class SubsCard extends StatelessWidget {
   final EditSubsController _editSubsController = Get.find();
+  final String id;
   final int price;
   final SubStatus status;
   final String nextDeliveryDate;
@@ -19,6 +21,7 @@ class SubsCard extends StatelessWidget {
   final List<dynamic> items;
   SubsCard({
     Key? key,
+    required this.id,
     required this.price,
     required this.status,
     required this.nextDeliveryDate,
@@ -224,7 +227,7 @@ class SubsCard extends StatelessWidget {
                                                     .nextDeliveryDate.value
                                                     .difference(DateTime.parse(
                                                         nextDeliveryDate))
-                                                    .inDays >
+                                                    .inHours >
                                                 0
                                             ? Text(
                                                 'Paused duration ${DateFormat.yMMMMd('en_US').format(DateTime.parse(nextDeliveryDate))} to ${DateFormat.yMMMMd('en_US').format(_editSubsController.nextDeliveryDate.value.subtract(Duration(days: 1)))}')
@@ -232,7 +235,26 @@ class SubsCard extends StatelessWidget {
                                       ),
                                       ElevatedButton(
                                         onPressed: () {
-                                          // TODO: Call PAUSE subs mutation
+                                          if (_editSubsController
+                                                  .nextDeliveryDate.value
+                                                  .difference(DateTime.parse(
+                                                      nextDeliveryDate))
+                                                  .inHours >
+                                              0) {
+                                            editSubs({
+                                              "id": id,
+                                              "nextDeliveryDate":
+                                                  _editSubsController
+                                                      .nextDeliveryDate.value
+                                                      .add(Duration(
+                                                          minutes: 330))
+                                                      .toUtc()
+                                                      .toIso8601String(),
+                                            });
+                                          } else {
+                                            launchSnack('Error',
+                                                'No pause duration selected');
+                                          }
                                         },
                                         child: Text('COFIRM'),
                                       )

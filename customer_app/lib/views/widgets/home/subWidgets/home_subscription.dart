@@ -33,6 +33,7 @@ class HomeSubscription extends StatelessWidget {
                       itemCount: subscription.length,
                       itemBuilder: (context, index) {
                         return SubsCard(
+                            id: subscription[index]['id'],
                             price: productController
                                 .calculateTotal(subscription[index]['items']),
                             status: parseSubsStatusEnum(
