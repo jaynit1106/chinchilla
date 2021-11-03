@@ -56,3 +56,20 @@ mutation addCustomer(\$firstName: String!, \$lastName: String!, \$phone: String!
 }
 
 """;
+String editCustomer = """
+mutation editCustomer(\$id: ID!, \$firstName: String, \$lastName: String, \$email: String) {
+  editCustomer(id: \$id, firstName: \$firstName, lastName: \$lastName, email: \$email) {
+    id
+    firstName
+    lastName
+    phone
+    location {
+      routeID
+      region {
+        hubID
+      }
+    }
+  }
+}
+
+""";

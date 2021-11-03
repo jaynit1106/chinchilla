@@ -10,6 +10,7 @@ import 'package:customer_app/controllers/addSubsController.dart';
 import 'package:customer_app/controllers/addressController.dart';
 import 'package:customer_app/controllers/payumoneyController.dart';
 import 'package:customer_app/controllers/dataEntryController.dart';
+import 'package:customer_app/controllers/profileController.dart';
 
 class InitialBinding implements Bindings {
   @override
@@ -25,5 +26,6 @@ class InitialBinding implements Bindings {
     Get.lazyPut(() => AddressController(), fenix: true);
     Get.lazyPut(() => PayumoneyController(), fenix: true);
     Get.lazyPut(() => DataEntryController(), fenix: true);
+    Get.lazyPut(() => ProfileController(), fenix: true);
   }
 }

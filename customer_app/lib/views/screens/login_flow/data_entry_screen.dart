@@ -78,11 +78,11 @@ class DataEntryScreen extends StatelessWidget {
                     update: (GraphQLDataProxy customerCache,
                             QueryResult? customerResult) =>
                         customerCache,
-                    onError: (addressError) {
+                    onError: (addCustomerError) {
                       launchSnack(
                           'Something went wrong', 'Please try again later');
                     },
-                    onCompleted: (dynamic addressData) {
+                    onCompleted: (dynamic addCustomerData) {
                       Get.offAll(() => SplashView());
                     },
                   ),
