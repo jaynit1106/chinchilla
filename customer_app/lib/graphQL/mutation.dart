@@ -39,3 +39,20 @@ mutation addTransaction(\$subTotal: Int!, \$customerID: String!, \$date: DateTim
 }
 
 """;
+String addCustomer = """
+mutation addCustomer(\$firstName: String!, \$lastName: String!, \$phone: String!, \$locationID: String!, \$email: String) {
+  addCustomer(firstName: \$firstName, lastName: \$lastName, phone: \$phone, locationID: \$locationID, email: \$email) {
+    id
+    firstName
+    lastName
+    phone
+    location {
+      routeID
+      region {
+        hubID
+      }
+    }
+  }
+}
+
+""";
