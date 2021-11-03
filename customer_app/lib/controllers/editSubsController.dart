@@ -2,13 +2,11 @@ import 'package:get/get.dart';
 import 'package:customer_app/utils/dates.dart';
 
 class EditSubsController extends GetxController {
-  RxInt quantity = 1.obs;
-  RxInt frequency = 1.obs;
   RxList items = [].obs;
   Rx<DateTime> nextDeliveryDate = leastPermittedDate.obs;
   Rx<DateTime> endDate = current.obs;
 
-  removeEndDate() {
+  void removeEndDate() {
     endDate.value = current;
   }
 
@@ -23,7 +21,7 @@ class EditSubsController extends GetxController {
     }
   }
 
-  increaseQuantity(String id) {
+  void increaseQuantity(String id) {
     final _item = items.firstWhere((element) => element["productID"] == id);
     final index = items.indexWhere((element) => element["productID"] == id);
 
@@ -33,11 +31,11 @@ class EditSubsController extends GetxController {
     };
   }
 
-  setItem(List<dynamic> initialItems) {
+  void setItem(List<dynamic> initialItems) {
     items.value = initialItems;
   }
 
-  setDates(String nextDate, String? lastDate) {
+  void setDates(String nextDate, String? lastDate) {
     nextDeliveryDate.value = DateTime.parse(nextDate);
     endDate.value = DateTime.parse(lastDate!);
   }
@@ -47,7 +45,7 @@ class EditSubsController extends GetxController {
     return _item["quantity"];
   }
 
-  selectStartDate(DateTime date) {
+  void selectStartDate(DateTime date) {
     if (date.difference(endDate.value).inHours > 0) {
       removeEndDate();
     }

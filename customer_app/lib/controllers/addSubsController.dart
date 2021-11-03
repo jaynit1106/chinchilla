@@ -9,7 +9,7 @@ class AddSubsController extends GetxController {
   Rx<DateTime> endDate = current.obs;
   RxString addressID = ''.obs;
 
-  selectRadio(int value) {
+  void selectRadio(int value) {
     selectedRadio.value = value;
   }
 
@@ -26,34 +26,34 @@ class AddSubsController extends GetxController {
     return frequency.value;
   }
 
-  selectAddressID(String address) {
+  void selectAddressID(String address) {
     addressID.value = address;
   }
 
-  selectStartDate(DateTime date) {
+  void selectStartDate(DateTime date) {
     if (date.difference(endDate.value).inHours > 0) {
       removeEndDate();
     }
     startDate.value = date;
   }
 
-  selectEndDate(DateTime date) {
+  void selectEndDate(DateTime date) {
     endDate.value = date;
   }
 
-  removeEndDate() {
+  void removeEndDate() {
     endDate.value = current;
   }
 
-  setFrequency(int value) {
+  void setFrequency(int value) {
     frequency.value = value;
   }
 
-  addQuantity() {
+  void addQuantity() {
     quantity.value++;
   }
 
-  subtractQuantity() {
+  void subtractQuantity() {
     if (quantity.value > 1) quantity.value--;
   }
 }
