@@ -35,6 +35,7 @@ class HomeOrder extends StatelessWidget {
                       itemCount: ordersForToday.length,
                       itemBuilder: (context, index) {
                         return OrderCard(
+                          id: ordersForToday[index]['id'],
                           price: productController
                               .calculateTotal(ordersForToday[index]['items']),
                           status: parseOrderStatusEnum(
@@ -44,9 +45,15 @@ class HomeOrder extends StatelessWidget {
                           items: ordersForToday[index]['items']
                               .map(
                                 (item) => Item(
-                                    name: productController
-                                        .getProductName(item['productID']),
-                                    quantity: item['quantity']),
+                                  id: item['productID'],
+                                  photoURL: productController
+                                      .getProductUrl(item['productID']),
+                                  price: productController
+                                      .getProductPrice(item['productID']),
+                                  name: productController
+                                      .getProductName(item['productID']),
+                                  quantity: item['quantity'],
+                                ),
                               )
                               .toList(),
                         );

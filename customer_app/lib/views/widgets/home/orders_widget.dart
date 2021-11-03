@@ -52,6 +52,8 @@ class OrdersView extends StatelessWidget {
                             .data!['OneTimeOrdersByCustomerIDAndDate'].length,
                         itemBuilder: (context, index) {
                           return OrderCard(
+                            id: result.data!['OneTimeOrdersByCustomerIDAndDate']
+                                [index]['id'],
                             price: _productController.calculateTotal(
                                 result.data!['OneTimeOrdersByCustomerIDAndDate']
                                     [index]['items']),
@@ -67,9 +69,15 @@ class OrdersView extends StatelessWidget {
                                     [index]['items']
                                 .map(
                                   (item) => Item(
-                                      name: _productController
-                                          .getProductName(item['productID']),
-                                      quantity: item['quantity']),
+                                    id: item['productID'],
+                                    photoURL: _productController
+                                        .getProductUrl(item['productID']),
+                                    price: _productController
+                                        .getProductPrice(item['productID']),
+                                    name: _productController
+                                        .getProductName(item['productID']),
+                                    quantity: item['quantity'],
+                                  ),
                                 )
                                 .toList(),
                           );

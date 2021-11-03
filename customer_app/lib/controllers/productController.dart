@@ -22,6 +22,16 @@ class ProductController extends GetxController {
     return _product.name;
   }
 
+  int getProductPrice(String id) {
+    Product _product = products.firstWhere((element) => element.id == id);
+    return _product.price;
+  }
+
+  String getProductUrl(String id) {
+    Product _product = products.firstWhere((element) => element.id == id);
+    return _product.photoURL;
+  }
+
   int calculateTotal(List items) {
     int total = 0;
     items.forEach((item) {

@@ -14,9 +14,9 @@ String addOrder = """
 mutation addOrder(\$customerID: String!, \$routeID: String!, \$items: [Item]!, \$deliveryDate: DateTime!, \$addressID: String!){
   addOrder(customerID: \$customerID, items: \$items, routeID: \$routeID, deliveryDate: \$deliveryDate, addressID: \$addressID){
     id
-      items
-      status
-      deliveryDate
+    items
+    status
+    deliveryDate
   }
 }
 """;
@@ -69,6 +69,17 @@ mutation editCustomer(\$id: ID!, \$firstName: String, \$lastName: String, \$emai
         hubID
       }
     }
+  }
+}
+
+""";
+String editOrder = """
+mutation editOrder(\$id: ID!, \$status: String, \$deliveryDate: DateTime, \$items: [Item]) {
+  markOrder(id: \$id, status: \$status, deliveryDate: \$deliveryDate, comment: "Editted by customer", items: \$items) {
+    id
+    items
+    deliveryDate
+    status
   }
 }
 

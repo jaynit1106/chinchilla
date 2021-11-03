@@ -43,9 +43,15 @@ class HomeSubscription extends StatelessWidget {
                             items: subscription[index]['items']
                                 .map(
                                   (item) => Item(
-                                      name: productController
-                                          .getProductName(item['productID']),
-                                      quantity: item['quantity']),
+                                    id: item['productID'],
+                                    photoURL: productController
+                                        .getProductUrl(item['productID']),
+                                    price: productController
+                                        .getProductPrice(item['productID']),
+                                    name: productController
+                                        .getProductName(item['productID']),
+                                    quantity: item['quantity'],
+                                  ),
                                 )
                                 .toList(),
                             frequency: subscription[index]['frequency']);
