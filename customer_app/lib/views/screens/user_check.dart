@@ -4,7 +4,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:customer_app/controllers/authController.dart';
 import 'package:customer_app/controllers/user_controller.dart';
 import 'package:customer_app/graphQL/query.dart';
-import 'package:customer_app/views/screens/bottom_nav/customer_app.dart';
+import 'package:customer_app/views/screens/home/customer_app.dart';
 import 'package:customer_app/views/screens/login_flow/data_entry_screen.dart';
 
 class UserCheck extends StatelessWidget {
