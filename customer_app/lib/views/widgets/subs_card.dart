@@ -178,8 +178,11 @@ class SubsCard extends StatelessWidget {
                         children: [
                           TextButton(
                             onPressed: () {
-                              _editSubsController.setDates(
-                                  nextDeliveryDate, endDate);
+                              endDate != null
+                                  ? _editSubsController.setDates(
+                                      nextDeliveryDate, endDate)
+                                  : _editSubsController.setDates(
+                                      nextDeliveryDate, current.toString());
                               Get.bottomSheet(
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
@@ -427,7 +430,40 @@ class SubsCard extends StatelessWidget {
                                       ),
                                       ElevatedButton(
                                         onPressed: () {
-                                          // TODO: Call edit subs mutation
+                                          if (_editSubsController
+                                                  .endDate.value !=
+                                              current) {
+                                            editSubs({
+                                              "id": id,
+                                              "items":
+                                                  _editSubsController.items,
+                                              "nextDeliveryDate":
+                                                  _editSubsController
+                                                      .nextDeliveryDate.value
+                                                      .add(Duration(
+                                                          minutes: 330))
+                                                      .toUtc()
+                                                      .toIso8601String(),
+                                              "endDate": _editSubsController
+                                                  .endDate.value
+                                                  .add(Duration(minutes: 330))
+                                                  .toUtc()
+                                                  .toIso8601String(),
+                                            });
+                                          } else {
+                                            editSubs({
+                                              "id": id,
+                                              "items":
+                                                  _editSubsController.items,
+                                              "nextDeliveryDate":
+                                                  _editSubsController
+                                                      .nextDeliveryDate.value
+                                                      .add(Duration(
+                                                          minutes: 330))
+                                                      .toUtc()
+                                                      .toIso8601String(),
+                                            });
+                                          }
                                         },
                                         child: Text('SUBMIT'),
                                       )
