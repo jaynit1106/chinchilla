@@ -1,17 +1,27 @@
+import 'package:customer_app/controllers/editSubsController.dart';
+import 'package:customer_app/graphQL/mutation.dart';
+import 'package:customer_app/utils/dates.dart';
+import 'package:customer_app/views/screens/success.dart';
+import 'package:customer_app/views/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:customer_app/utils/color.dart';
 import 'package:customer_app/utils/enums/enums.dart';
 
 class SubsCard extends StatelessWidget {
+  final EditSubsController _editSubsController = Get.find();
+  final String id;
   final int price;
   final SubStatus status;
   final String nextDeliveryDate;
   final String? endDate;
   final int frequency;
   final List<dynamic> items;
-  const SubsCard({
+  SubsCard({
     Key? key,
+    required this.id,
     required this.price,
     required this.status,
     required this.nextDeliveryDate,
@@ -137,21 +147,338 @@ class SubsCard extends StatelessWidget {
                 ],
               ),
             ),
-            // Divider(),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //   children: [
-            //     TextButton(
-            //       onPressed: () {},
-            //       child: Text('PAUSE'),
-            //     ),
-            //     Divider(),
-            //     TextButton(
-            //       onPressed: () {},
-            //       child: Text('EDIT'),
-            //     ),
-            //   ],
-            // ),
+            Divider(),
+            status != SubStatus.COMPLETED
+                ? Mutation(
+                    options: MutationOptions(
+                      document: gql(editSubscription),
+                      update: (GraphQLDataProxy editSubsCache,
+                              QueryResult? editSubsResult) =>
+                          editSubsCache,
+                      onError: (editSubsError) {
+                        Get.to(() => Success(
+                              isSuccess: false,
+                              message: 'Please try again later',
+                              popCount: 3,
+                            ));
+                      },
+                      onCompleted: (dynamic editSubsData) {
+                        Get.to(() => Success(
+                            isSuccess: true,
+                            popCount: 3,
+                            message: 'Subscription updated successfully'));
+                      },
+                    ),
+                    builder: (
+                      RunMutation editSubs,
+                      QueryResult? editSubsRes,
+                    ) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              endDate != null
+                                  ? _editSubsController.setDates(
+                                      nextDeliveryDate, endDate)
+                                  : _editSubsController.setDates(
+                                      nextDeliveryDate, current.toString());
+                              Get.bottomSheet(
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'PAUSE',
+                                        style: Get.textTheme.headline1,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 20.0),
+                                        child: ListTile(
+                                          leading: Icon(Icons.calendar_today),
+                                          title: Text('Next Delivery:'),
+                                          subtitle: Obx(() => Text(
+                                              DateFormat.yMMMMd('en_US')
+                                                  .format(_editSubsController
+                                                      .nextDeliveryDate.value)
+                                                  .toString())),
+                                          trailing: TextButton(
+                                              onPressed: () async {
+                                                final DateTime? picked =
+                                                    await showDatePicker(
+                                                  context: context,
+                                                  initialDate:
+                                                      _editSubsController
+                                                          .nextDeliveryDate
+                                                          .value,
+                                                  firstDate: DateTime.parse(
+                                                      nextDeliveryDate),
+                                                  lastDate:
+                                                      DateTime(today.year + 2),
+                                                );
+                                                if (picked != null) {
+                                                  _editSubsController
+                                                      .selectStartDate(picked);
+                                                }
+                                              },
+                                              child: Text('SELECT')),
+                                        ),
+                                      ),
+                                      Obx(
+                                        () => _editSubsController
+                                                    .nextDeliveryDate.value
+                                                    .difference(DateTime.parse(
+                                                        nextDeliveryDate))
+                                                    .inHours >
+                                                0
+                                            ? Text(
+                                                'Paused duration ${DateFormat.yMMMMd('en_US').format(DateTime.parse(nextDeliveryDate))} to ${DateFormat.yMMMMd('en_US').format(_editSubsController.nextDeliveryDate.value.subtract(Duration(days: 1)))}')
+                                            : Container(),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          if (_editSubsController
+                                                  .nextDeliveryDate.value
+                                                  .difference(DateTime.parse(
+                                                      nextDeliveryDate))
+                                                  .inHours >
+                                              0) {
+                                            editSubs({
+                                              "id": id,
+                                              "nextDeliveryDate":
+                                                  _editSubsController
+                                                      .nextDeliveryDate.value
+                                                      .add(Duration(
+                                                          minutes: 330))
+                                                      .toUtc()
+                                                      .toIso8601String(),
+                                            });
+                                          } else {
+                                            launchSnack('Error',
+                                                'No pause duration selected');
+                                          }
+                                        },
+                                        child: Text('COFIRM'),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                backgroundColor: Get.theme.backgroundColor,
+                              );
+                            },
+                            child: Text('PAUSE'),
+                          ),
+                          Divider(),
+                          TextButton(
+                            onPressed: () {
+                              endDate != null
+                                  ? _editSubsController.setDates(
+                                      nextDeliveryDate, endDate)
+                                  : _editSubsController.setDates(
+                                      nextDeliveryDate, current.toString());
+                              _editSubsController.setItem(items
+                                  .map((e) => {
+                                        "productID": e.id,
+                                        "quantity": e.quantity,
+                                      })
+                                  .toList());
+                              Get.bottomSheet(
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Edit subscription',
+                                        style: Get.textTheme.headline1,
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: Get.height * 0.01,
+                                        ),
+                                        height: Get.height * 0.20,
+                                        child: ListView.builder(
+                                            scrollDirection: Axis.vertical,
+                                            itemCount: items.length,
+                                            itemBuilder: (context, index) {
+                                              return ListTile(
+                                                leading: Image.network(
+                                                  items[index].photoURL,
+                                                ),
+                                                title: Text(items[index].name),
+                                                subtitle: Text(
+                                                  '₹ ${items[index].price.toString()}',
+                                                ),
+                                                trailing: Container(
+                                                  width: Get.width * 0.32,
+                                                  child: Row(
+                                                    children: [
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          _editSubsController
+                                                              .decreaseQuantity(
+                                                                  items[index]
+                                                                      .id);
+                                                        },
+                                                        icon:
+                                                            Icon(Icons.remove),
+                                                      ),
+                                                      Obx(
+                                                        () => Text(
+                                                          _editSubsController
+                                                              .getQuantity(
+                                                                items[index].id,
+                                                              )
+                                                              .toString(),
+                                                        ),
+                                                      ),
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          _editSubsController
+                                                              .increaseQuantity(
+                                                                  items[index]
+                                                                      .id);
+                                                        },
+                                                        icon: Icon(Icons.add),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.02,
+                                      ),
+                                      ListTile(
+                                        leading: Icon(Icons.calendar_today),
+                                        title: Text('Next delivery:'),
+                                        subtitle: Obx(() => Text(
+                                            DateFormat.yMMMMd('en_US')
+                                                .format(_editSubsController
+                                                    .nextDeliveryDate.value)
+                                                .toString())),
+                                        trailing: TextButton(
+                                            onPressed: () async {
+                                              final DateTime? picked =
+                                                  await showDatePicker(
+                                                context: context,
+                                                initialDate: _editSubsController
+                                                    .nextDeliveryDate.value,
+                                                firstDate: DateTime.parse(
+                                                    nextDeliveryDate),
+                                                lastDate:
+                                                    DateTime(today.year + 2),
+                                              );
+                                              if (picked != null) {
+                                                _editSubsController
+                                                    .selectStartDate(picked);
+                                              }
+                                            },
+                                            child: Text('SELECT')),
+                                      ),
+                                      ListTile(
+                                        leading: Icon(Icons.calendar_today),
+                                        title: Text('Ends'),
+                                        subtitle: Obx(() => Text(
+                                            _editSubsController.endDate.value !=
+                                                    current
+                                                ? DateFormat.yMMMMd('en_US')
+                                                    .format(_editSubsController
+                                                        .endDate.value)
+                                                : 'NEVER')),
+                                        trailing: Container(
+                                          width: Get.height * 0.133,
+                                          child: Row(
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () {
+                                                    _editSubsController
+                                                        .removeEndDate();
+                                                  },
+                                                  icon: Icon(Icons.delete)),
+                                              TextButton(
+                                                  onPressed: () async {
+                                                    final DateTime? picked =
+                                                        await showDatePicker(
+                                                      context: context,
+                                                      initialDate: _editSubsController
+                                                                  .endDate
+                                                                  .value !=
+                                                              current
+                                                          ? _editSubsController
+                                                              .endDate.value
+                                                          : _editSubsController
+                                                              .nextDeliveryDate
+                                                              .value,
+                                                      firstDate:
+                                                          _editSubsController
+                                                              .nextDeliveryDate
+                                                              .value,
+                                                      lastDate: DateTime(
+                                                          today.year + 2),
+                                                    );
+                                                    if (picked != null) {
+                                                      _editSubsController
+                                                          .endDate(picked);
+                                                    }
+                                                  },
+                                                  child: Text('SELECT')),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          if (_editSubsController
+                                                  .endDate.value !=
+                                              current) {
+                                            editSubs({
+                                              "id": id,
+                                              "items":
+                                                  _editSubsController.items,
+                                              "nextDeliveryDate":
+                                                  _editSubsController
+                                                      .nextDeliveryDate.value
+                                                      .add(Duration(
+                                                          minutes: 330))
+                                                      .toUtc()
+                                                      .toIso8601String(),
+                                              "endDate": _editSubsController
+                                                  .endDate.value
+                                                  .add(Duration(minutes: 330))
+                                                  .toUtc()
+                                                  .toIso8601String(),
+                                            });
+                                          } else {
+                                            editSubs({
+                                              "id": id,
+                                              "items":
+                                                  _editSubsController.items,
+                                              "nextDeliveryDate":
+                                                  _editSubsController
+                                                      .nextDeliveryDate.value
+                                                      .add(Duration(
+                                                          minutes: 330))
+                                                      .toUtc()
+                                                      .toIso8601String(),
+                                            });
+                                          }
+                                        },
+                                        child: Text('SUBMIT'),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                backgroundColor: Get.theme.backgroundColor,
+                              );
+                            },
+                            child: Text('EDIT'),
+                          ),
+                        ],
+                      );
+                    })
+                : Container(),
           ],
         ),
       ),

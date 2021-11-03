@@ -84,3 +84,16 @@ mutation editOrder(\$id: ID!, \$status: String, \$deliveryDate: DateTime, \$item
 }
 
 """;
+String editSubscription = """
+mutation editSubscription(\$id: String!, \$items: [Item], \$nextDeliveryDate: DateTime, \$endDate: DateTime) {
+  editSubscription(id: \$id, items: \$items, nextDeliveryDate: \$nextDeliveryDate, endDate: \$endDate) {
+    id
+    items
+    nextDeliveryDate
+    frequency
+    endDate
+    status
+  }
+}
+
+""";
