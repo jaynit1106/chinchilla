@@ -23,6 +23,7 @@ dependencies:
   lottie: ^1.2.0
   intl: ^0.17.0
   flutter_payu_unofficial: ^1.0.3
+  firebase_messaging: ^11.2.4
 
 dev_dependencies:
   flutter_test:
