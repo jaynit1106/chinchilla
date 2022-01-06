@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 Future<void>onBackgroundMessage(RemoteMessage message)async{
   if(message.data.containsKey('data')){

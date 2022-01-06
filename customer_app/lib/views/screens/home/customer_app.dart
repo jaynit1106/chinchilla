@@ -1,4 +1,5 @@
 import 'package:customer_app/services/FCM.dart';
+import 'package:customer_app/views/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:customer_app/controllers/bottom_nav_controller.dart';
@@ -9,16 +10,21 @@ import 'package:customer_app/views/widgets/home/shared/bottom_nav_bar.dart';
 
 class CustomerApp extends StatelessWidget {
   final BottomNavController _bottomNavController = Get.find();
-  @override
+  String notificationTitle="Gepton";
+  _showNotification(String msg){
+    launchSnack(notificationTitle, msg);
+  }
+  _changeTitle(String msg){
+    notificationTitle=msg;
+  }
 
-  void initState(){
+  Widget build(BuildContext context) {
 
     final firebaseMessaging=FCM();
     firebaseMessaging.setNotifications();
-  }
+    firebaseMessaging.titleCtrl.stream.listen(_changeTitle);
+    firebaseMessaging.bodyCtrl.stream.listen(_showNotification);
 
-
-  Widget build(BuildContext context) {
     return Scaffold(
       drawer: sideDrawer,
       appBar: AppBar(
