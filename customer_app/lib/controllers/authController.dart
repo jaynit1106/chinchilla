@@ -1,3 +1,4 @@
+import 'package:customer_app/views/screens/login_flow/OTP_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +9,6 @@ import 'package:customer_app/views/screens/splash_screen.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  TextEditingController _otpController = TextEditingController();
 
   String verificationId = '';
 
@@ -31,26 +31,9 @@ class AuthController extends GetxController {
 
     final PhoneCodeSent codeSent =
         (String verificationId, int? resendToken) async {
-      Get.defaultDialog(
-        title: 'Please enter your otp',
-        content: Column(children: [
-          TextFormField(
-            keyboardType: TextInputType.number,
-            autofocus: true,
-            controller: _otpController,
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          ElevatedButton(
-              onPressed: () {
-                submitOtp(_otpController.text, verificationId);
-                _otpController.clear();
-              },
-              child: Text('Verify')),
-        ]),
-      );
+        Get.to(()=>otpScreen(phone, verificationId));
     };
+
 
     _auth.verifyPhoneNumber(
         phoneNumber: '+91' + phone,
@@ -58,6 +41,7 @@ class AuthController extends GetxController {
         verificationFailed: verificationFailed,
         codeSent: codeSent,
         codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
+
   }
 
   void submitOtp(String otp, String verID) async {

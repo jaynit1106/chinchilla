@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:customer_app/controllers/authController.dart';
 
@@ -22,6 +23,7 @@ class LoginScreen extends StatelessWidget {
           ),
           TextFormField(
             autofocus: true,
+            inputFormatters: [new LengthLimitingTextInputFormatter(10)],
             controller: _phoneController,
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
@@ -38,9 +40,9 @@ class LoginScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async{
                     _authController.login(_phoneController.text);
-                  },
+                    },
                   child: Text('Login'),
                 ),
               ),
