@@ -14,7 +14,19 @@ class otpScreen extends StatelessWidget {
   TextEditingController fifthDigit = TextEditingController();
   TextEditingController sixthDigit = TextEditingController();
   final AuthController _authController = Get.find();
-  Widget _getTextField(TextEditingController val){
+
+  FocusNode firstFocusNode=FocusNode();
+  FocusNode secondFocusNode=FocusNode();
+  FocusNode thirdFocusNode=FocusNode();
+  FocusNode fourthFocusNode=FocusNode();
+  FocusNode fifthFocusNode=FocusNode();
+  FocusNode sixthFocusNode=FocusNode();
+
+  void nextField({required FocusNode focusNode}) {
+    focusNode.requestFocus();
+  }
+
+  Widget _getTextField(TextEditingController val,FocusNode focusNode,FocusNode next){
     return new ConstrainedBox(
       constraints: BoxConstraints(
           maxHeight: Get.height*0.06,
@@ -22,6 +34,10 @@ class otpScreen extends StatelessWidget {
       ),
       child: Container(
         child: TextFormField(
+          focusNode: focusNode,
+          onChanged:(value){
+            nextField(focusNode:next);
+          },
           autofocus: true,
           inputFormatters: [new LengthLimitingTextInputFormatter(1)],
           controller: val,
@@ -90,17 +106,17 @@ class otpScreen extends StatelessWidget {
             SizedBox(height: Get.height*0.02,),
             Row(
               children:<Widget> [
-                _getTextField(firstDigit),
+                _getTextField(firstDigit,firstFocusNode,secondFocusNode),
                 SizedBox(width: Get.width*0.03),
-                _getTextField(secondDigit),
+                _getTextField(secondDigit,secondFocusNode,thirdFocusNode),
                 SizedBox(width: Get.width*0.03),
-                _getTextField(thirdDigit),
+                _getTextField(thirdDigit,thirdFocusNode,fourthFocusNode),
                 SizedBox(width: Get.width*0.03),
-                _getTextField(fourthDigit),
+                _getTextField(fourthDigit,fourthFocusNode,fifthFocusNode),
                 SizedBox(width: Get.width*0.03),
-                _getTextField(fifthDigit),
+                _getTextField(fifthDigit,fifthFocusNode,sixthFocusNode),
                 SizedBox(width: Get.width*0.03),
-                _getTextField(sixthDigit),
+                _getTextField(sixthDigit,sixthFocusNode,firstFocusNode),
 
               ],
             ),
