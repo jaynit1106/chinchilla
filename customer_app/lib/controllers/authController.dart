@@ -51,7 +51,7 @@ class AuthController extends GetxController {
       await _auth.signInWithCredential(credential);
       Get.offAll(() => RootCheck());
     } catch (e) {
-      launchSnack('Something went wrong', e.toString());
+      launchSnack('Error',"Invalid OTP");
     }
   }
 

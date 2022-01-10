@@ -1,4 +1,5 @@
 import 'package:customer_app/views/screens/login_flow/login_screen.dart';
+import 'package:customer_app/views/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:customer_app/controllers/authController.dart';
@@ -132,7 +133,12 @@ class OtpScreen extends StatelessWidget {
                   child: Text("Verify"),
                   onPressed: (){
                     String otp=firstDigit.text+secondDigit.text+thirdDigit.text+fourthDigit.text+fifthDigit.text+sixthDigit.text;
-                    _authController.submitOtp(otp,verID);
+                    if(otp.length==6){
+                      _authController.submitOtp(otp,verID);
+                    }else{
+                      launchSnack("Error", "Invalid OTP");
+                    }
+
                   },
                 )
               ],
