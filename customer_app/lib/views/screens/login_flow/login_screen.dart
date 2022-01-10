@@ -1,3 +1,4 @@
+import 'package:customer_app/views/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -41,8 +42,12 @@ class LoginScreen extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () async{
-                    _authController.login(_phoneController.text);
-                    },
+                    if(_phoneController.text.length==10){
+                      _authController.login(_phoneController.text);
+                    }else{
+                      launchSnack("Error", "Invalid Phone Number");
+                    }
+                  },
                   child: Text('Login'),
                 ),
               ),

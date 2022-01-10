@@ -31,7 +31,7 @@ class AuthController extends GetxController {
 
     final PhoneCodeSent codeSent =
         (String verificationId, int? resendToken) async {
-        Get.to(()=>otpScreen(phone, verificationId));
+        Get.to(()=>OtpScreen(phone, verificationId));
     };
 
 

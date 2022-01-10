@@ -1,12 +1,13 @@
+import 'package:customer_app/views/screens/login_flow/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:customer_app/controllers/authController.dart';
 import 'package:get/get.dart';
 
-class otpScreen extends StatelessWidget {
+class OtpScreen extends StatelessWidget {
   final String phoneNumber;
   final String verID;
-  otpScreen(this.phoneNumber,this.verID);
+  OtpScreen(this.phoneNumber,this.verID);
   TextEditingController firstDigit = TextEditingController();
   TextEditingController secondDigit = TextEditingController();
   TextEditingController thirdDigit = TextEditingController();
@@ -36,7 +37,9 @@ class otpScreen extends StatelessWidget {
         child: TextFormField(
           focusNode: focusNode,
           onChanged:(value){
-            nextField(focusNode:next);
+            if(val.text.length==1) {
+              nextField(focusNode:next);
+            }
           },
           autofocus: true,
           inputFormatters: [new LengthLimitingTextInputFormatter(1)],
@@ -73,10 +76,10 @@ class otpScreen extends StatelessWidget {
           shrinkWrap: true,
           padding: EdgeInsets.only(left: Get.width*0.09,top: Get.height*0.18),
           children: <Widget>[
-            Text("My Code is",
+            Text("My OTP is",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 35
+                fontSize: Get.height*0.065
               ),
             ),
             Row(
@@ -84,19 +87,21 @@ class otpScreen extends StatelessWidget {
                 Text(phoneNumber,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: Get.height*0.032,
                       color: Colors.grey
                   ),
                 ),
-                SizedBox(width: Get.width*0.05),
+                SizedBox(width: Get.width*0.04),
                 ElevatedButton(
-                  child: Text("RESEND",
+                  child: Text("CHANGE",
                     style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),
                   ),
-                  onPressed: (){},
+                  onPressed: (){
+                    Get.to(()=>LoginScreen());
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                    shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),),
+                    shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(Get.height*0.065)),),
                     side: MaterialStateProperty.all<BorderSide>(BorderSide(color: Colors.grey))
                   ),
                 )
