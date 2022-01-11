@@ -1,5 +1,4 @@
 import 'package:customer_app/views/screens/login_flow/OTP_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:customer_app/views/widgets/snackbar.dart';
@@ -26,7 +25,9 @@ class AuthController extends GetxController {
 
     final PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException e) {
-      launchSnack('Oops!!', e.toString());
+      String error=e.toString();
+      var arr=error.split("/");
+      launchSnack('Something went wrong', arr[1].split("]")[0]);
     };
 
     final PhoneCodeSent codeSent =
@@ -51,7 +52,9 @@ class AuthController extends GetxController {
       await _auth.signInWithCredential(credential);
       Get.offAll(() => RootCheck());
     } catch (e) {
-      launchSnack('Error',"Invalid OTP");
+      String error=e.toString();
+      var arr=error.split("/");
+      launchSnack('Something went wrong', arr[1].split("]")[0]);
     }
   }
 
